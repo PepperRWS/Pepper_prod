@@ -1,0 +1,80 @@
+@import url("../common.css");
+
+body{
+  overflow: auto;
+  position: relative;
+}
+
+#client_banner{
+  width: 80%;
+  max-height: 50%;
+  margin-bottom: 4%;
+}
+
+#client_welcome_text{
+  text-align: center;
+  font-size:10vh;
+  height: 20vh;
+  font-family: decosFont;
+  text-transform: none;
+}
+
+#image-dropdown {
+  display: inline-block;
+  border: 0px solid;
+  float:right;
+  height: 100px;
+  overflow: hidden;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+#image-dropdown.img_holder {
+  cursor: pointer;
+}
+#image-dropdown img.flagimgs {
+  height: 100px;
+}
+
+@keyframes help-hand-animation {
+  0%   {
+    background-image: url("hand2_with_no_tap.png");
+  }
+  50%{
+    background-image: url("hand2_with_tap.png");
+  }
+  100% {
+    background-image: url("hand2_with_no_tap.png");
+  }
+}
+
+@-webkit-keyframes help-hand-animation {
+  0%   {
+    background-image: url("hand2_with_no_tap.png");
+  }
+  50%{
+    background-image: url("hand2_with_tap.png");
+  }
+  100% {
+    background-image: url("hand2_with_no_tap.png");
+  }
+}
+
+
+.help-hand{
+  right: 5%;
+  bottom: 5%;
+  height: 20vh;
+
+  position: fixed;
+  z-index: 1000;
+
+}
+
+.help-hand-animation-start{
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+
+  animation-name: help-hand-animation;
+  -webkit-animation-name: help-hand-animation;
+}

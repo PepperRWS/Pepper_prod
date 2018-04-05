@@ -1,0 +1,35 @@
+@import url("../common.css");
+
+.title {
+  font-family: decosFont;
+  text-align: center;
+  font-size: 5vw;
+  margin-bottom: 5%;
+  width: 92%
+}
+
+.question_wrapper{
+  width: 100%;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+.question{
+  min-width: 45%;
+  min-height: 15vh;
+  margin: 1%;
+
+  font-family: decosFont;
+  font-size: 5vw;
+
+  text-transform: none;
+
+  line-height: 100%;
+}
+
+.question_big{
+  width: 92%;
+}
