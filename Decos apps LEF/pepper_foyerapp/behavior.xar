@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8" ?><ChoregrapheProject xmlns="http://www.aldebaran-robotics.com/schema/choregraphe/project.xsd" xar_version="3"><Box name="root" id="-1" localization="8" tooltip="Root box of Choregraphe&apos;s behavior. Highest level possible." x="0" y="0"><bitmap>media/images/box/root.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="DecosRWS/Tablet/stop" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Tablet/stop" inner="1" tooltip="DecosRWS/Tablet/stop desc" id="4" /><Input name="PeoplePerception/JustArrived" type="0" type_size="1" nature="4" stm_value_name="PeoplePerception/JustArrived" inner="1" tooltip="PeoplePerception/JustArrived desc" id="5" /><Input name="PeoplePerception/JustLeft" type="0" type_size="1" nature="4" stm_value_name="PeoplePerception/JustLeft" inner="1" tooltip="PeoplePerception/JustLeft desc" id="6" /><Input name="DecosRWS/Goodbye" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Goodbye" inner="1" tooltip="DecosRWS/Goodbye desc" id="7" /><Input name="Dialog/NoOneSpeak20" type="0" type_size="1" nature="4" stm_value_name="Dialog/NoOneSpeak20" inner="1" tooltip="Dialog/NoOneSpeak20 desc" id="8" /><Input name="DecosRWS/PersonFound" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/PersonFound" inner="1" tooltip="DecosRWS/PersonFound desc" id="9" /><Input name="Dialog/LastInput" type="0" type_size="1" nature="4" stm_value_name="Dialog/LastInput" inner="1" tooltip="Dialog/LastInput desc" id="10" /><Input name="Dialog/LastAnswer" type="0" type_size="1" nature="4" stm_value_name="Dialog/LastAnswer" inner="1" tooltip="Dialog/LastAnswer desc" id="11" /><Input name="DecosRWS/Tablet/showimage" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Tablet/showimage" inner="1" tooltip="DecosRWS/Tablet/showimage desc" id="12" /><Input name="DecosRWS/InteractionSarted" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/InteractionSarted" inner="1" tooltip="DecosRWS/InteractionSarted desc" id="13" /><Input name="EngagementZones/PersonEnteredZone1" type="0" type_size="1" nature="4" stm_value_name="EngagementZones/PersonEnteredZone1" inner="1" tooltip="EngagementZones/PersonEnteredZone1 desc" id="14" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="15" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="70.7107"><Box name="Set Language" id="2" localization="8" tooltip="Set the language of your robot for the current application. Your robot will speak and understand the selected language as long as your application has focus. Any following call to ALSpeechRecognition (Speech Reco. box for instance), ALTextToSpeech (Say box for instance) or ALDialog will use this language.&#x0A;" x="485" y="222"><bitmap>media/images/box/interaction/say.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        try:
+            self.tts = ALProxy("ALTextToSpeech")
+        except:
+            self.logger.warn("ALTextToSpeech is not available, language setting cannot be applied to speech")
+            self.tts = None
+
+        try:
+            self.asr = ALProxy("ALSpeechRecognition")
+        except:
+            self.logger.warn("ALSpeechRecognition is not available, language setting cannot be applied to recognition")
+            self.asr = None
+
+        try:
+            self.dialog = ALProxy("ALDialog")
+        except:
+            self.logger.warn("ALDialog is not available, language setting cannot be applied to dialog")
+            self.dialog = None
+
+    def onInput_onSet(self):
+        lang = self.getParameter("Language")
+        try:
+            if self.asr:
+                self.asr.setLanguage( self.getParameter("Language") )
+            if self.tts:
+                self.tts.setLanguage( self.getParameter("Language") )
+            if self.dialog:
+                self.dialog.setLanguage( self.getParameter("Language") )
+            if self.tts is None and self.asr is None and self.dialog is None:
+                raise RuntimeError("Cannot set language: neither ALTextToSpeech nor ALSpeechRecognition nor ALDialog is available.")
+            self.onReady()
+        except:
+            error = "Language " + lang + " cannot be set."
+            self.logger.warn(error)
+            self.onError(error)]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onSet" type="1" type_size="1" nature="1" inner="0" tooltip="The data is set when a signal is received on this input." id="2" /><Output name="onReady" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when the data has been set." id="3" /><Output name="onError" type="3" type_size="1" nature="2" inner="0" tooltip="Error output:&#x0A;- triggered if the language asked cannot be set" id="4" /><Parameter name="Language" inherits_from_parent="0" content_type="3" value="Dutch" default_value="English" custom_choice="1" tooltip="Set the language the robot speaks and understands." id="5"><Choice value="Arabic" /><Choice value="Brazilian" /><Choice value="Chinese" /><Choice value="Czech" /><Choice value="Danish" /><Choice value="Dutch" /><Choice value="English" /><Choice value="Finnish" /><Choice value="French" /><Choice value="German" /><Choice value="Greek" /><Choice value="Italian" /><Choice value="Japanese" /><Choice value="Korean" /><Choice value="MandarinTaiwan" /><Choice value="Norwegian" /><Choice value="Polish" /><Choice value="Portuguese" /><Choice value="Russian" /><Choice value="Spanish" /><Choice value="Swedish" /><Choice value="Turkish" /></Parameter><Resource name="Speech" type="Lock" timeout="0" /></Box><Box name="Load Navigation Map" id="4" localization="8" tooltip="" x="492" y="350"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import os
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.nav = self.session().service("DecosNavigation")
+
+    def onUnload(self):
+        self.nav.stop()
+
+    def onInput_onStart(self):
+        self.nav.stop()
+
+        map_name = "rws_reception.explo"
+
+        filepath = os.path.join( ALFrameManager.getBehaviorPath(self.behaviorId) , "NavigationMaps/"+map_name)
+
+        self.logger.info("Uploading map from "+filepath)
+
+        file = open(filepath, "r")
+        self.nav.uploadMap( file.read() , map_name )
+
+        self.nav.loadMap(map_name)
+
+        self.nav.localize()
+
+        # enlarge the safety distances so it should not get close to a table
+        motion = ALProxy("ALMotion")
+        #data = motion.getTangentialSecurityDistance()
+        #self.logger.info("\r\n Tangential " + str(data))
+        #data = motion.getOrthogonalSecurityDistance()
+        #self.logger.info("\r\n Orthogonal " + str(data))
+        #data = motion.getExternalCollisionProtectionEnabled("All")
+        #self.logger.info("\r\n ExternalCollision " + str(data))
+        motion.setTangentialSecurityDistance(0.3)
+        motion.setOrthogonalSecurityDistance(0.6)
+
+        self.onLoaded()
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Output name="onLoaded" type="1" type_size="1" nature="2" inner="0" tooltip="" id="5" /></Box><Box name="Start AL" id="19" localization="8" tooltip="" x="244" y="231"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import time
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        time.sleep(8)
+        al= ALProxy('ALAutonomousLife')
+        al.setState('interactive')
+        self.motion=ALProxy("ALMotion")
+        self.dialog=ALProxy("ALDialog")
+        self.dialog.setConfidenceThreshold("BNF", 0.495)
+        self.engagement = ALProxy("ALEngagementZones")
+        self.perception = ALProxy("ALPeoplePerception")
+        self.engagement.setLimitAngle(25.0)
+        #self.engagement.setFirstLimitDistance(1.0)
+        #self.perception.setTimeBeforePersonDisappears(1.0)
+        self.perception.setMaximumDetectionRange(1.0)
+
+        self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Basic Awareness" id="1" localization="8" tooltip="This box is an interface to the module ALBasicAwareness.&#x0A;&#x0A;It is a simple way to make the robot establish and keep eye contact with people.&#x0A;&#x0A;V1.1.0" x="524" y="585"><bitmap>media/images/box/tracker/basicawareness.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        try:
+            self.awareness = ALProxy('ALBasicAwareness')
+        except Exception as e:
+            self.awareness = None
+            self.logger.error(e)
+
+        self.memory = ALProxy('ALMemory')
+
+        self.isRunning = False
+        self.trackedHuman = -1
+
+        import threading
+        self.subscribingLock = threading.Lock()
+
+        self.BIND_PYTHON(self.getName(), "setParameter")
+
+
+    def onUnload(self):
+        if self.isRunning:
+            if self.awareness:
+                self.awareness.stopAwareness()
+                self.setALMemorySubscription(False)
+            self.isRunning = False
+
+
+    def onInput_onStart(self):
+        if self.isRunning:
+            return # already running, nothing to do
+
+        self.isRunning = True
+        self.trackedHuman = -1
+        if self.awareness:
+            self.awareness.setEngagementMode(self.getParameter('Engagement Mode'))
+            self.awareness.setTrackingMode(self.getParameter('Tracking Mode'))
+            self.awareness.setStimulusDetectionEnabled('Sound', self.getParameter('Sound Stimulus'))
+            self.awareness.setStimulusDetectionEnabled('Movement', self.getParameter('Movement Stimulus'))
+            self.awareness.setStimulusDetectionEnabled('People', self.getParameter('People Stimulus'))
+            self.awareness.setStimulusDetectionEnabled('Touch', self.getParameter('Touch Stimulus'))
+            self.setALMemorySubscription(True)
+            self.awareness.startAwareness()
+
+
+
+    def onInput_onStop(self):
+        if not self.isRunning:
+            return # already stopped, nothing to do
+
+        self.onUnload()
+        self.onStopped()
+
+
+    def setParameter(self, parameterName, newValue):
+        GeneratedClass.setParameter(self, parameterName, newValue)
+
+        if self.awareness:
+            if parameterName == 'Sound Stimulus':
+                self.awareness.setStimulusDetectionEnabled('Sound', newValue)
+            elif parameterName == 'Movement Stimulus':
+                self.awareness.setStimulusDetectionEnabled('Movement', newValue)
+            elif parameterName == 'People Stimulus':
+                self.awareness.setStimulusDetectionEnabled('People', newValue)
+            elif parameterName == 'Touch Stimulus':
+                self.awareness.setStimulusDetectionEnabled('Touch', newValue)
+
+
+    # callbacks for ALBasicAwareness events
+    def onStimulusDetected(self, eventName, stimulusName, subscriberIdentifier):
+        self.StimulusDetected(stimulusName)
+
+    def onHumanTracked(self, eventName, humanID, subscriberIdentifier):
+        self.trackedHuman = humanID
+        self.HumanTracked(humanID)
+
+    def onHumanLost(self, eventName, subscriberIdentifier):
+        self.HumanLost(self.trackedHuman)
+        self.trackedHuman = -1
+
+
+    def setALMemorySubscription(self, subscribe):
+        self.subscribingLock.acquire()
+        if subscribe:
+            self.memory.subscribeToEvent('ALBasicAwareness/StimulusDetected', self.getName(), 'onStimulusDetected')
+            self.memory.subscribeToEvent('ALBasicAwareness/HumanTracked', self.getName(), 'onHumanTracked')
+            self.memory.subscribeToEvent('ALBasicAwareness/HumanLost', self.getName(), 'onHumanLost')
+        else:
+            self.memory.unsubscribeToEvent('ALBasicAwareness/StimulusDetected', self.getName())
+            self.memory.unsubscribeToEvent('ALBasicAwareness/HumanTracked', self.getName())
+            self.memory.unsubscribeToEvent('ALBasicAwareness/HumanLost', self.getName())
+
+        self.subscribingLock.release()]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Starts the Basic Awareness with the given Engagement and Tracking mode parameters, using the given stimuli." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Stops the Basic Awareness." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Output name="StimulusDetected" type="3" type_size="1" nature="2" inner="0" tooltip="This output is stimulated when BasicAwareness detects a stimulus amongst the tracked stimulus.&#x0A;&#x0A;The output data is the stimulus&apos; name." id="5" /><Output name="HumanTracked" type="2" type_size="1" nature="2" inner="0" tooltip="This output is triggered when ALBasicAwareness detects a stimulus that is confirmed to be a human.&#x0A;&#x0A;The output data is the ID corresponding to the tracked human. It is shared with PeoplePerception and can be used there. This output is triggered with -1 if ALBasicAwareness tried to detect a human but failed." id="6" /><Output name="HumanLost" type="2" type_size="1" nature="2" inner="0" tooltip="This output is triggered when the human currently tracked is lost.&#x0A;&#x0A; The output data is the ID corresponding to the lost human. It can be reused in PeoplePerception." id="7" /><Parameter name="Engagement Mode" inherits_from_parent="0" content_type="3" value="FullyEngaged" default_value="Unengaged" custom_choice="0" tooltip='The engagement mode specifies how &quot;focused&quot; the robot is on the engaged person.' id="8"><Choice value="Unengaged" /><Choice value="FullyEngaged" /><Choice value="SemiEngaged" /></Parameter><Parameter name="Tracking Mode" inherits_from_parent="0" content_type="3" value="BodyRotation" default_value="Head" custom_choice="0" tooltip="The tracking mode describes how the robot keeps eye contact with an engaged person." id="9"><Choice value="Head" /><Choice value="BodyRotation" /><Choice value="WholeBody" /></Parameter><Parameter name="Sound Stimulus" inherits_from_parent="0" content_type="0" value="0" default_value="1" tooltip="" id="10" /><Parameter name="Movement Stimulus" inherits_from_parent="0" content_type="0" value="0" default_value="1" tooltip="" id="11" /><Parameter name="People Stimulus" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="12" /><Parameter name="Touch Stimulus" inherits_from_parent="0" content_type="0" value="0" default_value="1" tooltip="" id="13" /></Box><Box name="Raise Event" id="10" localization="8" tooltip="Stores in NAOqi&apos;s shared memory the given value at the given key, and spreads the event to all its subscribers." x="247" y="476"><bitmap>media/images/box/sensors/STM.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+
+    def onUnload(self):
+        self.memory = None
+
+    def onInput_onStart(self, p):
+        self.memory.raiseEvent(self.getParameter("key"), p)
+        self.logger.info("fired")
+        self.onStopped(p)
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Receives the value to be inserted as an event in ALMemory." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="0" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished. It contains the inserted value in ALMemory." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="Output when error is raised by the behavior. Contains the error message." id="5" /><Parameter name="key" inherits_from_parent="0" content_type="3" value="DecosRWS/PersonFound" default_value="MyApplication/MyData" custom_choice="0" tooltip="" id="6" /></Box><Box name="Move to Position" id="11" localization="8" tooltip="" x="957" y="201"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="DecosRWS/PersonFound" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/PersonFound" inner="1" tooltip="DecosRWS/PersonFound desc" id="4" /><Input name="DecosRWS/InteractionSarted" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/InteractionSarted" inner="1" tooltip="DecosRWS/InteractionSarted desc" id="5" /><Output name="onPositionReached" type="1" type_size="1" nature="1" inner="0" tooltip="" id="6" /><Output name="onInteraction" type="1" type_size="1" nature="1" inner="0" tooltip="" id="7" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram><Box name="Go To WayPoint Random" id="5" localization="8" tooltip="" x="372" y="134"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import random
+import threading
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.nav = self.session().service("DecosNavigation")
+
+        #the following values are pixels. You need to look at the map image to get them
+        self.waypoints = [[128,295],[126,325],[113,353],[79,392],[174,249],[181,222],[209,193],[218,172],[239,130],[264,96]]
+        self.availableWaypoints = []
+        self.lock = threading.Lock()
+        self.moving = False
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def gotonew(self):
+        self.moving = True
+
+        waypoint = self.getWaypoint() #random.sample(self.waypoints,  1)[0]
+
+        self.logger.info( self.nav.getPosition() )
+
+        self.logger.info("Selected waypoint "+str(waypoint))
+
+        self.logger.info( self.nav.goToPixel( waypoint[0] , waypoint[1] ) )
+
+        self.logger.info( self.nav.getPosition() )
+
+        self.moving = False
+
+        self.onPositionReached()
+
+    def getWaypoint(self):
+        self.lock.acquire()
+        if (len(self.availableWaypoints) == 0):
+            for i in range(len(self.waypoints)):
+                self.availableWaypoints.append(i)
+
+        index =  random.randint(1, len(self.availableWaypoints)) - 1
+        value = self.availableWaypoints[index]
+        self.availableWaypoints.remove(value)
+        #self.logger.info(str(value))
+        self.lock.release()
+        return self.waypoints[value]
+
+    def onInput_onStart(self):
+
+        self.nav.start()
+        if not self.moving:
+            try:
+                self.gotonew()
+            except RuntimeError:
+                self.logger.info("Promise is broken, not a problem...")
+                # only trigger onStopped on error.
+                self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+                self.onStopped() #activate the output of the box
+
+    def onInput_onStop(self):
+        #Stop pepper movement
+        try:
+            self.logger.info("Request received to stop GoTo")
+            self.nav.stop()
+            self.logger.info("GoTo has been stopped")
+        except RuntimeError:
+                self.logger.info("Already Stopped...")
+
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Output name="onPositionReached" type="1" type_size="1" nature="2" inner="0" tooltip="" id="5" /></Box><Box name="Show main page" id="4" localization="8" tooltip="Shows the webview (html content) on the tablet.&#x0A;&#x0A;V1.0.0&#x0A;" x="260" y="244"><bitmap>media/images/box/internet/internet.png</bitmap><script language="4"><content><![CDATA[
+class MyClass(GeneratedClass):
+
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            #self.logger.info("behavior path is : " + behavior)
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+            #self.logger.info(self.url)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(self.url+"/"+page+".html")
+        else:
+            self.logger.warning("ALTabletService not found.")
+        self.onStopped()
+
+    def onInput_onStart(self):
+        self.showWebPage("index")]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="banner" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="banner url" id="4" /><Parameter name="welcome text" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" /><Parameter name="welcome text size" inherits_from_parent="1" content_type="1" value="80" default_value="80" min="0" max="120" tooltip="" id="6" /><Parameter name="welcome text show" inherits_from_parent="1" content_type="0" value="1" default_value="1" tooltip="" id="7" /></Box><Box name="Raise Event" id="2" localization="8" tooltip="Stores in NAOqi&apos;s shared memory the given value at the given key, and spreads the event to all its subscribers." x="437" y="248"><bitmap>media/images/box/sensors/STM.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+
+    def onUnload(self):
+        self.memory = None
+
+    def onInput_onStart(self, p):
+        self.memory.raiseEvent(self.getParameter("key"), p)
+        self.onStopped(p)
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Receives the value to be inserted as an event in ALMemory." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="0" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished. It contains the inserted value in ALMemory." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="Output when error is raised by the behavior. Contains the error message." id="5" /><Parameter name="key" inherits_from_parent="0" content_type="3" value="DecosRWS/WaitInteraction" default_value="MyApplication/MyData" custom_choice="0" tooltip="" id="6" /></Box><Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="5" indexofinput="3" outputowner="0" indexofoutput="5" /><Link inputowner="0" indexofinput="7" outputowner="0" indexofoutput="5" /><Link inputowner="0" indexofinput="6" outputowner="5" indexofoutput="5" /><Link inputowner="4" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="0" indexofinput="6" outputowner="5" indexofoutput="4" /><Link inputowner="2" indexofinput="2" outputowner="4" indexofoutput="3" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box><Box name="HR Dialog" id="12" localization="8" tooltip="" x="1202" y="335"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="DecosRWS/Tablet/stop" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Tablet/stop" inner="1" tooltip="DecosRWS/Tablet/stop desc" id="4" /><Input name="DecosRWS/Tablet/showimage" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Tablet/showimage" inner="1" tooltip="DecosRWS/Tablet/showimage desc" id="5" /><Input name="DecosRWS/Tablet/showimage/stop" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Tablet/showimage/stop" inner="1" tooltip="DecosRWS/Tablet/showimage/stop desc" id="6" /><Input name="DecosRWS/InteractionStopped" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/InteractionStopped" inner="1" tooltip="DecosRWS/InteractionStopped desc" id="7" /><Input name="Dialog/NoOneSpeak10" type="0" type_size="1" nature="4" stm_value_name="Dialog/NoOneSpeak10" inner="1" tooltip="Dialog/NoOneSpeak10 desc" id="8" /><Input name="DecosRWS/NotUnderstood" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/NotUnderstood" inner="1" tooltip="DecosRWS/NotUnderstood desc" id="9" /><Input name="Dialog/LastInput" type="0" type_size="1" nature="4" stm_value_name="Dialog/LastInput" inner="1" tooltip="Dialog/LastInput desc" id="10" /><Input name="Dialog/LastAnswer" type="0" type_size="1" nature="4" stm_value_name="Dialog/LastAnswer" inner="1" tooltip="Dialog/LastAnswer desc" id="11" /><Input name="DecosRWS/Tablet/showimage/start" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Tablet/showimage/start" inner="1" tooltip="DecosRWS/Tablet/showimage/start desc" id="12" /><Input name="DecosRWS/Tablet/showvideo" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/Tablet/showvideo" inner="1" tooltip="DecosRWS/Tablet/showvideo desc" id="13" /><Input name="Dialog/CurrentString" type="0" type_size="1" nature="4" stm_value_name="Dialog/CurrentString" inner="1" tooltip="Dialog/CurrentString desc" id="14" /><Input name="Dialog/IsQuiet" type="0" type_size="1" nature="4" stm_value_name="Dialog/IsQuiet" inner="1" tooltip="Dialog/IsQuiet desc" id="15" /><Output name="onTimeout" type="1" type_size="1" nature="1" inner="0" tooltip="" id="16" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="59.4604"><Box name="Detect not understood (1)" id="2" localization="8" tooltip="" x="446" y="240"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.notunderstood = 0
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        pass
+
+    def onInput_onNotUnderstood(self):
+        self.notunderstood = self.notunderstood + 1
+
+        if(self.notunderstood > 5):
+            self.onStopped()
+
+    def onInput_onUnderstood(self):
+        self.notunderstood = 0
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onNotUnderstood" type="1" type_size="1" nature="1" inner="0" tooltip="" id="3" /><Input name="onUnderstood" type="1" type_size="1" nature="1" inner="0" tooltip="" id="4" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="5" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="6" /></Box><Box name="Show Chitchat Random Window" id="8" localization="8" tooltip="Shows the webview (html content) on the tablet.&#x0A;&#x0A;V1.0.0&#x0A;" x="831" y="248"><bitmap>media/images/box/internet/internet.png</bitmap><script language="4"><content><![CDATA[
+class MyClass(GeneratedClass):
+
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            #self.logger.info("behavior path is : " + behavior)
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+            #self.logger.info(self.url)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(self.url+"/"+page+".html")
+        else:
+            self.logger.warning("ALTabletService not found.")
+
+    def onInput_onStart(self):
+        self.showWebPage("chitchat")]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="banner" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="banner url" id="4" /><Parameter name="welcome text" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" /><Parameter name="welcome text size" inherits_from_parent="1" content_type="1" value="80" default_value="80" min="0" max="120" tooltip="" id="6" /><Parameter name="welcome text show" inherits_from_parent="1" content_type="0" value="1" default_value="1" tooltip="" id="7" /></Box><Box name="Show Image" id="3" localization="8" tooltip="Shows the webview (html content) on the tablet.&#x0A;&#x0A;V1.0.0&#x0A;" x="668" y="388"><bitmap>media/images/box/internet/internet.png</bitmap><script language="4"><content><![CDATA[
+class MyClass(GeneratedClass):
+
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            #self.logger.info("behavior path is : " + behavior)
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+            #self.logger.info(self.url)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(self.url+"/"+page+".html")
+        else:
+            self.logger.warning("ALTabletService not found.")
+
+    def onInput_onStart(self):
+        self.showWebPage("show_image")]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="banner" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="banner url" id="4" /><Parameter name="welcome text" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" /><Parameter name="welcome text size" inherits_from_parent="1" content_type="1" value="80" default_value="80" min="0" max="120" tooltip="" id="6" /><Parameter name="welcome text show" inherits_from_parent="1" content_type="0" value="1" default_value="1" tooltip="" id="7" /></Box><Box name="Play Video" id="4" localization="8" tooltip="Plays the video; returns when it&apos;s done.&#x0A;&#x0A;You can also interrupt, pause or resume the video.&#x0A;&#x0A;You can get events when the video starts or finishes.&#x0A;&#x0A;V1.0.0&#x0A;" x="672" y="499"><bitmap>media/images/box/interaction/rec_movie.png</bitmap><script language="4"><content><![CDATA[
+
+class MyClass(GeneratedClass):
+
+    def onLoad(self):
+        self.isRunning = False
+        self.startConnectId = None
+        self.finishConnectId = None
+        self.tabletService = None
+
+    def onUnload(self):
+        if self.tabletService:
+            try:
+                self.tabletService.stopVideo()
+            except Exception as e:
+                self.logger.error(e)
+            finally:
+                self.disconnectStartedListener()
+                self.disconnectFinishedListener()
+                self.isRunning = False
+
+    def disconnectFinishedListener(self):
+        if self.finishConnectId and self.tabletService:
+            try:
+                self.tabletService.videoFinished.disconnect(self.finishConnectId)
+                self.finishConnectId = None
+            except Exception as e:
+                self.logger.error(e)
+
+    def disconnectStartedListener(self):
+        if self.startConnectId and self.tabletService:
+            try:
+                self.tabletService.videoStarted.disconnect(self.startConnectId)
+                self.startConnectId = None
+            except Exception as e:
+                self.logger.error(e)
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def _getAbsoluteUrl(self, partialUrl):
+        import os
+        subpath = os.path.join(self.packageUid(), os.path.normpath(partialUrl).lstrip("\\/"))
+        if self.tabletService:
+            return "http://%s/apps/%s" % (self.tabletService.robotIp(), subpath.replace(os.path.sep, "/"))
+        else:
+            self.logger.warning("No ALTabletService, can't get robot Ip.")
+            return None
+
+    def connectStartCallback(self):
+        try:
+            self.startConnectId = self.tabletService.videoStarted.connect(self.onVideoStarted)
+        except Exception as err:
+            self.logger.warning("Failed to subscribe to started callback: %s " % err)
+
+    def connectStopCallback(self):
+        try:
+            self.finishConnectId = self.tabletService.videoFinished.connect(self.onVideoFinished)
+        except Exception as err:
+            self.logger.warning("Failed to subscribe to stopped callback: %s " % err)
+
+    def onInput_onStart(self,url):
+        if self.isRunning:
+            return # already running, nothing to do
+        self.isRunning = True
+        # We create TabletService here in order to avoid
+        # problems with connections and disconnections of the tablet during the life of the application
+        self.tabletService = self._getTabletService()
+        if self.tabletService:
+            try:
+                if url == '':
+                    self.logger.error("URL of the video is empty")
+                if not url.startswith('http'):
+                    url = self._getAbsoluteUrl(url)
+                self.connectStartCallback()
+                self.connectStopCallback()
+                self.tabletService.playVideo(url)
+            except Exception as err:
+                self.logger.warning("Error during playVideo or subscribe: %s " % err)
+                self.onStopped()
+                self.isRunning = False
+        else:
+            self.logger.warning("No ALTabletService, can't play video.")
+            self.onStopped()
+            self.isRunning = False
+
+    def onInput_onStop(self):
+        self.onUnload()
+        self.onStopped()
+
+    def onInput_onPauseVideo(self):
+        if self.tabletService:
+            self.tabletService.pauseVideo()
+
+    def onInput_onResumeVideo(self):
+        if self.tabletService:
+            self.tabletService.resumeVideo()
+
+    def onVideoStarted(self):
+        self.disconnectStartedListener()
+        self.onStarted()
+
+    def onVideoFinished(self):
+        self.disconnectFinishedListener()
+        self.onStopped()
+        self.isRunning = False]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="2" /><Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="3" /><Input name="onPauseVideo" type="1" type_size="1" nature="1" inner="0" tooltip="Pause the video when a signal is received on this input." id="4" /><Input name="onResumeVideo" type="1" type_size="1" nature="1" inner="0" tooltip="Resume the video when a signal is received on this input." id="5" /><Output name="onStarted" type="1" type_size="1" nature="2" inner="0" tooltip="Triggered when the video started" id="6" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="7" /><Output name="onError" type="0" type_size="1" nature="2" inner="0" tooltip="" id="8" /><Parameter name="VideoPath" inherits_from_parent="0" content_type="3" value="" default_value="" custom_choice="0" tooltip='path of the video inside the &quot;html&quot; folder (e.g. &quot;/video/myvideo.mp4&quot;' id="9" /></Box><Box name="Tactile Head" id="5" localization="8" tooltip="Detect touch on head tactile sensor." x="193" y="670"><bitmap>media/images/box/sensors/tactileHead.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.bIsRunning = False
+
+    def onUnload(self):
+        self.bIsRunning = False
+
+    def onInput_onStart(self):
+        self.bIsRunning = True
+
+    def onInput_onStop(self):
+        if( self.bIsRunning ):
+            self.onUnload() #~ it is usually a good idea to call onUnload of this box in a onStop method, as the code written in onUnload is used to finish the working of the box as well
+            self.onStopped() #~ activate output of the box
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="FrontTactilTouched" type="0" type_size="1" nature="4" stm_value_name="FrontTactilTouched" inner="1" tooltip="Connected to ALMemory. Will be stimulated every time the value subscribed to changes, respecting the refresh period." id="4" /><Input name="MiddleTactilTouched" type="0" type_size="1" nature="4" stm_value_name="MiddleTactilTouched" inner="1" tooltip="Connected to ALMemory. Will be stimulated every time the value subscribed to changes, respecting the refresh period." id="5" /><Input name="RearTactilTouched" type="0" type_size="1" nature="4" stm_value_name="RearTactilTouched" inner="1" tooltip="Connected to ALMemory. Will be stimulated every time the value subscribed to changes, respecting the refresh period." id="6" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is stopped." id="7" /><Output name="frontTouched" type="1" type_size="1" nature="2" inner="0" tooltip="The front tactile head sensor was touched." id="8" /><Output name="middleTouched" type="1" type_size="1" nature="2" inner="0" tooltip="The middle tactile head sensor was touched." id="9" /><Output name="rearTouched" type="1" type_size="1" nature="2" inner="0" tooltip="The rear tactile head sensor was touched." id="10" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram><Box name="If &gt; 0" id="1" localization="8" tooltip="Transmit only if value is &gt; 0." x="260" y="17"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        #~ puts code for box initialization here
+        pass
+
+    def onUnload(self):
+        #~ puts code for box cleanup here
+        pass
+
+    def onInput_onStart(self, p):
+        if(p > 0):
+            self.onStopped() #~ activate output of the box
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is usually a good idea to call onUnload of this box in a onStop method, as the code written in onUnload is used to finish the working of the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="If &gt; 0" id="2" localization="8" tooltip="Transmit only if value is &gt; 0." x="256" y="119"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        #~ puts code for box initialization here
+        pass
+
+    def onUnload(self):
+        #~ puts code for box cleanup here
+        pass
+
+    def onInput_onStart(self, p):
+        if(p > 0):
+            self.onStopped() #~ activate output of the box
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is usually a good idea to call onUnload of this box in a onStop method, as the code written in onUnload is used to finish the working of the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="If &gt; 0" id="3" localization="8" tooltip="Transmit only if value is &gt; 0." x="261" y="223"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        #~ puts code for box initialization here
+        pass
+
+    def onUnload(self):
+        #~ puts code for box cleanup here
+        pass
+
+    def onInput_onStart(self, p):
+        if(p > 0):
+            self.onStopped() #~ activate output of the box
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is usually a good idea to call onUnload of this box in a onStop method, as the code written in onUnload is used to finish the working of the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="4" /><Link inputowner="0" indexofinput="8" outputowner="1" indexofoutput="4" /><Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="5" /><Link inputowner="0" indexofinput="9" outputowner="2" indexofoutput="4" /><Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="6" /><Link inputowner="0" indexofinput="10" outputowner="3" indexofoutput="4" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline><Resource name="Head-sequence" type="Lock" timeout="0" /></Box><Box name="Raise Event" id="6" localization="8" tooltip="Stores in NAOqi&apos;s shared memory the given value at the given key, and spreads the event to all its subscribers." x="367" y="682"><bitmap>media/images/box/sensors/STM.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+
+    def onUnload(self):
+        self.memory = None
+
+    def onInput_onStart(self, p):
+        self.memory.raiseEvent(self.getParameter("key"), p)
+        self.onStopped(p)
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Receives the value to be inserted as an event in ALMemory." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="0" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished. It contains the inserted value in ALMemory." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="Output when error is raised by the behavior. Contains the error message." id="5" /><Parameter name="key" inherits_from_parent="0" content_type="3" value="DecosRWS/Tablet/stop" default_value="MyApplication/MyData" custom_choice="0" tooltip="" id="6" /></Box><Box name="stopTTS" id="16" localization="8" tooltip="" x="635" y="111"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import time
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.stopping = False
+        self.dialog = ALProxy("ALDialog")
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        tts = ALProxy("ALTextToSpeech")
+        memory = ALProxy("ALMemory")
+        self.stopping = True
+
+        tts.stopAll()
+
+        self.logger.info(memory.getData("ALTextToSpeech/TextDone"))
+
+        #dialog = ALProxy("ALDialog")
+        #dialog.forceOutput()
+        #self.onStopped() #activate the output of the box
+        pass
+
+    def onInput_onEventFound(self):
+        if self.stopping :
+            tts = ALProxy("ALTextToSpeech")
+            time.sleep(0.05)
+            tts.stopAll()
+
+    def onInput_onStop(self):
+        self.dialog.gotoTag("AskQuestion", "joella_dialog_file")
+        self.stopping = False
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onEventFound" type="1" type_size="1" nature="1" inner="0" tooltip="" id="3" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="4" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" /></Box><Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="2" indexofinput="3" outputowner="0" indexofoutput="9" /><Link inputowner="0" indexofinput="16" outputowner="2" indexofoutput="6" /><Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="12" /><Link inputowner="2" indexofinput="4" outputowner="0" indexofoutput="11" /><Link inputowner="4" indexofinput="2" outputowner="2" indexofoutput="6" /><Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="6" indexofinput="2" outputowner="5" indexofoutput="9" /><Link inputowner="0" indexofinput="16" outputowner="0" indexofoutput="7" /><Link inputowner="8" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="16" indexofinput="2" outputowner="0" indexofoutput="4" /><Link inputowner="4" indexofinput="2" outputowner="16" indexofoutput="5" /><Link inputowner="8" indexofinput="2" outputowner="16" indexofoutput="5" /><Link inputowner="16" indexofinput="3" outputowner="0" indexofoutput="5" /><Link inputowner="16" indexofinput="4" outputowner="0" indexofoutput="6" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box><Box name="Wait for H" id="13" localization="8" tooltip="" x="923" y="405"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="Dialog/NoOneSpeak20" type="0" type_size="1" nature="4" stm_value_name="Dialog/NoOneSpeak20" inner="1" tooltip="Dialog/NoOneSpeak20 desc" id="4" /><Input name="DecosRWS/PersonFound" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/PersonFound" inner="1" tooltip="DecosRWS/PersonFound desc" id="5" /><Input name="Dialog/NotUnderstood" type="0" type_size="1" nature="4" stm_value_name="Dialog/NotUnderstood" inner="1" tooltip="Dialog/NotUnderstood desc" id="6" /><Input name="Dialog/NotUnderstoodEvent" type="0" type_size="1" nature="4" stm_value_name="Dialog/NotUnderstoodEvent" inner="1" tooltip="Dialog/NotUnderstoodEvent desc" id="7" /><Input name="DecosRWS/InteractionSarted" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/InteractionSarted" inner="1" tooltip="DecosRWS/InteractionSarted desc" id="8" /><Input name="DecosRWS/NotUnderstood" type="0" type_size="1" nature="4" stm_value_name="DecosRWS/NotUnderstood" inner="1" tooltip="DecosRWS/NotUnderstood desc" id="9" /><Input name="Dialog/LastInput" type="0" type_size="1" nature="4" stm_value_name="Dialog/LastInput" inner="1" tooltip="Dialog/LastInput desc" id="10" /><Input name="Dialog/LastAnswer" type="0" type_size="1" nature="4" stm_value_name="Dialog/LastAnswer" inner="1" tooltip="Dialog/LastAnswer desc" id="11" /><Output name="onTimeout" type="1" type_size="1" nature="1" inner="0" tooltip="" id="12" /><Output name="onInteraction" type="1" type_size="1" nature="1" inner="0" tooltip="" id="13" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="59.4604"><Box name="Detect not understood" id="1" localization="8" tooltip="" x="626" y="261"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.notunderstood = 0
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        pass
+
+    def onInput_onNotUnderstood(self):
+        self.notunderstood = self.notunderstood + 1
+
+        if(self.notunderstood > 5):
+            self.onStopped()
+
+    def onInput_onUnderstood(self):
+        self.notunderstood = 0
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onNotUnderstood" type="1" type_size="1" nature="1" inner="0" tooltip="" id="3" /><Input name="onUnderstood" type="1" type_size="1" nature="1" inner="0" tooltip="" id="4" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="5" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="6" /></Box><Box name="print message" id="3" localization="8" tooltip="" x="288" y="377"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        self.logger.info("Waiting for human interaction")
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Show main page" id="4" localization="8" tooltip="Shows the webview (html content) on the tablet.&#x0A;&#x0A;V1.0.0&#x0A;" x="441" y="300"><bitmap>media/images/box/internet/internet.png</bitmap><script language="4"><content><![CDATA[
+class MyClass(GeneratedClass):
+
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            #self.logger.info("behavior path is : " + behavior)
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+            #self.logger.info(self.url)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(self.url+"/"+page+".html")
+        else:
+            self.logger.warning("ALTabletService not found.")
+
+    def onInput_onStart(self):
+        self.showWebPage("index")]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="banner" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="banner url" id="4" /><Parameter name="welcome text" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" /><Parameter name="welcome text size" inherits_from_parent="1" content_type="1" value="80" default_value="80" min="0" max="120" tooltip="" id="6" /><Parameter name="welcome text show" inherits_from_parent="1" content_type="0" value="1" default_value="1" tooltip="" id="7" /></Box><Box name="Wait" id="6" localization="8" tooltip="Wait a moment before sending a signal on the output. &#x0A;Can be stopped anytime. &#x0A;Stimulating the input again before output is activated restarts the waiting period.&#x0A;" x="454" y="10"><bitmap>media/images/box/wait.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self, False)
+
+    def onLoad(self):
+        self.waiting = None
+
+    def onUnload(self):
+        self.cancelWaiting()
+
+    def triggerOutput(self):
+        self.timerOutput()
+
+    def cancelWaiting(self):
+        if self.waiting:
+            self.waiting.cancel()
+        self.waiting = None
+
+    def onInput_onStart(self):
+        self.cancelWaiting()
+        import qi
+        self.waiting = qi.async(self.triggerOutput, delay=int(self.getParameter("Timeout (s)") * 1000 * 1000))
+
+    def onInput_onStop(self):
+        if self.getParameter("Trigger timerOutput if cancelled") and self.waiting and self.waiting.isRunning():
+            self.timerOutput()
+        self.onUnload()]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Start the Wait box with the configured timeout value." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Stop the wait and stimulate the output." id="3" /><Output name="timerOutput" type="1" type_size="1" nature="1" inner="0" tooltip="Send a bang once time set in parameters is elapsed, or if the box is stopped and the appropriate parameter is set." id="4" /><Parameter name="Timeout (s)" inherits_from_parent="0" content_type="2" value="20" default_value="1" min="0" max="5000" tooltip="Duration the box waits before stimulating the output." id="5" /><Parameter name="Trigger timerOutput if cancelled" inherits_from_parent="0" content_type="0" value="0" default_value="1" tooltip="If the box is currently waiting and cancelled, output will be stimulated." id="6" /></Box><Box name="Start head Follow" id="2" localization="8" tooltip="" x="444" y="477"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        self.awareness = ALProxy('ALBasicAwareness')
+        #self.awareness.setTrackingMode('BodyRotation')
+        #self.awareness.setEngagementMode('FullyEngaged')
+        self.awareness.startAwareness()
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="changeInteractionState" id="5" localization="8" tooltip="" x="545" y="133"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        self.interaction = self.session().service("DecosInteractionStates")
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        #self.onStopped() #activate the output of the box
+        #self.interaction.change_state('WAITINGINTERACTION')
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Link inputowner="0" indexofinput="13" outputowner="0" indexofoutput="8" /><Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="1" indexofinput="3" outputowner="0" indexofoutput="9" /><Link inputowner="0" indexofinput="12" outputowner="1" indexofoutput="6" /><Link inputowner="1" indexofinput="4" outputowner="0" indexofoutput="11" /><Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="4" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="0" indexofinput="12" outputowner="0" indexofoutput="4" /><Link inputowner="6" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="0" indexofinput="12" outputowner="6" indexofoutput="4" /><Link inputowner="6" indexofinput="3" outputowner="0" indexofoutput="8" /><Link inputowner="6" indexofinput="3" outputowner="0" indexofoutput="9" /><Link inputowner="6" indexofinput="3" outputowner="0" indexofoutput="11" /><Link inputowner="6" indexofinput="3" outputowner="0" indexofoutput="4" /><Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="2" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box><Box name="OnPersonFound" id="8" localization="8" tooltip="" x="242" y="355"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        self.motion = ALProxy("ALMotion")
+        self.names = ["HeadYaw", "HeadPitch"]
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def turn_head(self, yaw, pitch):
+        angles = [yaw, pitch]
+        fractionMaxSpeed  = 0.25
+        self.motion.angleInterpolationWithSpeed(self.names, angles, fractionMaxSpeed)
+
+    def onInput_onStart(self):
+        self.turn_head(0.0, -0.35 )
+        #self.onStopped() #activate the output of the box
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Play Video" id="5" localization="8" tooltip="Plays the video; returns when it&apos;s done.&#x0A;&#x0A;You can also interrupt, pause or resume the video.&#x0A;&#x0A;You can get events when the video starts or finishes.&#x0A;&#x0A;V1.0.0&#x0A;" x="261" y="708"><bitmap>media/images/box/interaction/rec_movie.png</bitmap><script language="4"><content><![CDATA[
+
+class MyClass(GeneratedClass):
+
+    def onLoad(self):
+        self.isRunning = False
+        self.startConnectId = None
+        self.finishConnectId = None
+        self.tabletService = None
+
+    def onUnload(self):
+        if self.tabletService:
+            try:
+                self.tabletService.stopVideo()
+            except Exception as e:
+                self.logger.error(e)
+            finally:
+                self.disconnectStartedListener()
+                self.disconnectFinishedListener()
+                self.isRunning = False
+
+    def disconnectFinishedListener(self):
+        if self.finishConnectId and self.tabletService:
+            try:
+                self.tabletService.videoFinished.disconnect(self.finishConnectId)
+                self.finishConnectId = None
+            except Exception as e:
+                self.logger.error(e)
+
+    def disconnectStartedListener(self):
+        if self.startConnectId and self.tabletService:
+            try:
+                self.tabletService.videoStarted.disconnect(self.startConnectId)
+                self.startConnectId = None
+            except Exception as e:
+                self.logger.error(e)
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def _getAbsoluteUrl(self, partialUrl):
+        import os
+        subpath = os.path.join(self.packageUid(), os.path.normpath(partialUrl).lstrip("\\/"))
+        if self.tabletService:
+            return "http://%s/apps/%s" % (self.tabletService.robotIp(), subpath.replace(os.path.sep, "/"))
+        else:
+            self.logger.warning("No ALTabletService, can't get robot Ip.")
+            return None
+
+    def connectStartCallback(self):
+        try:
+            self.startConnectId = self.tabletService.videoStarted.connect(self.onVideoStarted)
+        except Exception as err:
+            self.logger.warning("Failed to subscribe to started callback: %s " % err)
+
+    def connectStopCallback(self):
+        try:
+            self.finishConnectId = self.tabletService.videoFinished.connect(self.onVideoFinished)
+        except Exception as err:
+            self.logger.warning("Failed to subscribe to stopped callback: %s " % err)
+
+    def onInput_onStart(self):
+        if self.isRunning:
+            return # already running, nothing to do
+        self.isRunning = True
+        # We create TabletService here in order to avoid
+        # problems with connections and disconnections of the tablet during the life of the application
+        self.tabletService = self._getTabletService()
+        if self.tabletService:
+            try:
+                url = self.getParameter("VideoPath")
+                if url == '':
+                    self.logger.error("URL of the video is empty")
+                if not url.startswith('http'):
+                    url = self._getAbsoluteUrl(url)
+                self.connectStartCallback()
+                self.connectStopCallback()
+                self.tabletService.playVideo(url)
+            except Exception as err:
+                self.logger.warning("Error during playVideo or subscribe: %s " % err)
+                self.onStopped()
+                self.isRunning = False
+        else:
+            self.logger.warning("No ALTabletService, can't play video.")
+            self.onStopped()
+            self.isRunning = False
+
+    def onInput_onStop(self):
+        self.onUnload()
+        self.onStopped()
+
+    def onInput_onPauseVideo(self):
+        if self.tabletService:
+            self.tabletService.pauseVideo()
+
+    def onInput_onResumeVideo(self):
+        if self.tabletService:
+            self.tabletService.resumeVideo()
+
+    def onVideoStarted(self):
+        self.disconnectStartedListener()
+        self.onStarted()
+
+    def onVideoFinished(self):
+        self.disconnectFinishedListener()
+        self.onStopped()
+        self.isRunning = False]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="onPauseVideo" type="1" type_size="1" nature="1" inner="0" tooltip="Pause the video when a signal is received on this input." id="4" /><Input name="onResumeVideo" type="1" type_size="1" nature="1" inner="0" tooltip="Resume the video when a signal is received on this input." id="5" /><Output name="onStarted" type="1" type_size="1" nature="2" inner="0" tooltip="Triggered when the video started" id="6" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="7" /><Parameter name="VideoPath" inherits_from_parent="0" content_type="3" value="" default_value="" custom_choice="0" tooltip='path of the video inside the &quot;html&quot; folder (e.g. &quot;/video/myvideo.mp4&quot;' id="8" /></Box><Box name="Check Awareness" id="14" localization="8" tooltip="" x="870" y="606"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        self.awareness = ALProxy('ALBasicAwareness')
+        self.logger.info( self.awareness.isAwarenessRunning() )
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Show website" id="3" localization="8" tooltip="Shows the webview (html content) on the tablet.&#x0A;&#x0A;V1.0.0&#x0A;" x="1121" y="513"><bitmap>media/images/box/internet/internet.png</bitmap><script language="4"><content><![CDATA[
+class MyClass(GeneratedClass):
+
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            #self.logger.info("behavior path is : " + behavior)
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+            #self.logger.info(self.url)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(page)
+        else:
+            self.logger.warning("ALTabletService not found.")
+
+    def onInput_onStart(self):
+        self.showWebPage("http://cdn.wallpapersafari.com/12/37/XuH4jc.jpg")]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="banner" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="banner url" id="4" /><Parameter name="welcome text" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" /><Parameter name="welcome text size" inherits_from_parent="1" content_type="1" value="80" default_value="80" min="0" max="120" tooltip="" id="6" /><Parameter name="welcome text show" inherits_from_parent="1" content_type="0" value="1" default_value="1" tooltip="" id="7" /></Box><Box name="joella_dialog_file" id="6" localization="8" tooltip="" x="828" y="73"><dialogFile>joella_dialog_file/joella_dialog_file.dlg</dialogFile><bitmap>media/images/box/box-dialog.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Link inputowner="2" indexofinput="2" outputowner="19" indexofoutput="4" /><Link inputowner="4" indexofinput="2" outputowner="19" indexofoutput="4" /><Link inputowner="1" indexofinput="2" outputowner="19" indexofoutput="4" /><Link inputowner="11" indexofinput="2" outputowner="13" indexofoutput="12" /><Link inputowner="12" indexofinput="2" outputowner="13" indexofoutput="13" /><Link inputowner="13" indexofinput="2" outputowner="11" indexofoutput="6" /><Link inputowner="11" indexofinput="2" outputowner="12" indexofoutput="16" /><Link inputowner="8" indexofinput="2" outputowner="0" indexofoutput="13" /><Link inputowner="10" indexofinput="2" outputowner="0" indexofoutput="14" /><Link inputowner="12" indexofinput="2" outputowner="11" indexofoutput="7" /><Link inputowner="11" indexofinput="2" outputowner="2" indexofoutput="3" /><Link inputowner="19" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="6" indexofinput="2" outputowner="2" indexofoutput="3" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box></ChoregrapheProject>

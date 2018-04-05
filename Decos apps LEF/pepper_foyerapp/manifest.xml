@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.3.0" uuid="decos-rws-foyer">
+ <names>
+  <name lang="en_US">DecosRWS</name>
+ </names>
+ <supportedLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path=".">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+  <dialogContent topicName="joella_dialog_file" typeVersion="1.0">
+   <topic language="nl_NL" path="joella_dialog_file/joella_dialog_file_dun.top"/>
+  </dialogContent>
+ </contents>
+ <services>
+  <service autorun="false" name="PythonAppMain" execStart="main.py"/>
+ </services>
+ <executableFiles>
+  <file path="main.py"/>
+ </executableFiles>
+</package>
