@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Presentation Screen</title>
+    <script src="scripts/qimessaging.js"></script>
+    <script src="includes/jquery.js"></script>
+    <link rel="stylesheet" href="includes/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+    <script type="text/javascript" src="includes/materialize/js/materialize.min.js"></script>
+  </head>
+
+  <style>
+    body, html, main, #wrapper {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #video {
+      position: absolute;
+      top: 35px;
+      width: 1920px;
+      height: 1080px;
+      display:block;
+    }
+
+    #image {
+      position: absolute;
+      z-index: 50;
+    }
+
+    .resetbutton{
+      position:absolute;
+
+      margin:  3%;
+
+      width: 15vw;
+      height: 15vw;
+      z-index: 200;
+    }
+
+    .resetbutton_icon{
+      font-family: FontAwesome;
+      font-size: 10vh;
+      width: 100%;
+      height: 100%;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      text-align: center;
+
+      color: white;
+    }
+
+    .resetbutton_bottom{
+      top: 0;
+      left: 0; /*45%*/
+    }
+
+  </style>
+  <body>
+    <div id="wrapper">
+      <img id="image" src="RWS-Decos-gimp.png" />
+      <video id="video" autoplay loop>
+        <source src="Pepper_SM-vraag1_v3-kort1.mp4" type="video/mp4">
+      </video>
+    </div>
+    <a class="btn-floating waves-effect waves-light resetbutton resetbutton_bottom blue "><div class="fa fa-home resetbutton_icon"></div></a>
+  <script>
+    var session = new QiSession('198.18.0.1');
+    //var session = new QiSession('pepper.local');
+    var el_image = document.getElementById('image');
+    var el_video = document.getElementById('video');
+    el_video.style.display = "none"
+
+    session.socket().on('connect', function() {
+      console.log('connected to qisession')
+      session.service("ALMemory").done(function(mem) {
+        mem.subscriber('DecosRWS/Tablet/showimage').done(function (subscriber) {
+          subscriber.signal.connect(function (data) {
+            console.log('received new message data')
+            el_image.style.display = "block"
+            el_video.style.display = "none"
+            if (data != '') {
+              el_image.src = data
+            }
+          })
+        })
+
+        mem.subscriber('DecosRWS/Tablet/showvideo').done(function(subscriber) {
+          subscriber.signal.connect(function (data) {
+
+            setTimeout(function() {
+              el_video.style.display = "block"
+              el_video.style.zIndex = 150;
+              el_image.style.display = "none";
+            }, 4000);
+          });
+        })
+
+        $( ".resetbutton" ).one("touchstart",function(){
+          try{
+            mem.raiseEvent("DecosRWS/Tablet/stop","1");
+          } catch(error){
+            alert(error);
+          }
+        });
+
+      })
+
+    })
+  </script>
+  </body>
+</html>
