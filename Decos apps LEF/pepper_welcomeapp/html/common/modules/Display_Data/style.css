@@ -1,0 +1,37 @@
+@import url('../common.css');
+
+#logo{
+  max-height: 50%;
+}
+
+#images{
+  font-size: 18vw;
+  margin: 2%;
+}
+
+#fullscreen_image{
+  height: 100%;
+  width: 80%;
+}
+
+#confirmButton{
+  text-align: center;
+  font-family: decosFont;
+  font-size: 3vw;
+  min-width: 20%;
+  min-height: 15vh;
+  margin: 1%;
+  text-transform: none;
+  line-height: 100%;
+  position:relative;
+  transition: .5s ease;
+  top: 0px;
+  left: 280px;
+}
+
+#text{
+  text-align: center;
+  font-size:6vw;
+  font-family: decosFont;
+  width: 90%;
+}

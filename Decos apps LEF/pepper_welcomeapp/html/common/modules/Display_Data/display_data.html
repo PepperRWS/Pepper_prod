@@ -1,0 +1,76 @@
+<html>
+  <script src="../../scripts/qimessaging.js"></script>
+  <script src="../../scripts/naoqi.js"></script>
+  <script src="../../includes/jquery.js"></script>
+  <link rel="stylesheet" href="../../includes/font-awesome/css/font-awesome.min.css">
+
+  <link type="text/css" rel="stylesheet" href="../../includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="../../includes/materialize/js/materialize.min.js"></script>
+
+  <script src="../../scripts/newResetButton.js"></script>
+  <link rel="stylesheet" href="../../css/newResetButton.css">
+  <script type="text/javascript" src="../../scripts/buttonclick.js"></script>
+  <link rel="stylesheet" href="../../css/buttonclick.css">
+
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <div class="centered_main_wrapper">
+      <img id="logo" />
+      <div id="images" class="fa"></div>
+      <img id="resources_image" />
+      <img id="fullscreen_image" />
+      <div id="text"></div>
+      <button class="button question waves-effect waves-light btn" type="button" id="confirmButton" value="Ok" style="display: none;" onclick="confirm_button()"></button>
+    </div>
+  </body>
+
+  <script>
+    //var naoqi = NaoQiSession('pepper.local');
+    var naoqi = NaoQiSession('198.18.0.1');
+    var session= naoqi.session;
+    var memory;
+
+    addresetButton(session,'top',9999999999999999);
+
+    function confirm_button(){
+      memory.raiseEvent("Decos/mod6/pepper_hear/heard", 1);
+    }
+
+    $.when( session.service("ALMemory") ).then(function(mem){
+      console.log("ALMemory!")
+      memory=mem;
+
+    $.when(mem.getData("Decos/mod6/pepper_show_button")).then(function(button_text){
+      if (button_text!="none"){
+        document.getElementById("confirmButton").innerText=button_text;
+        $("#confirmButton").show();
+      }
+    });
+
+    $.when(mem.getData("Decos/mod6/text"),mem.getData("Decos/mod6/images")).then(function(pepper_display, image){
+        $('#text').html(pepper_display);
+
+        if(image == ' '){
+          $.when(mem.getData("Decos/client/banner")).then(function(logo){
+            $('#logo').attr("src","../../resources/"+logo);
+          });
+        } else if (image.indexOf("fa-")) {
+          $.when(mem.getData("Decos/mod6/pepper_fullscreen")).then(function(option_fullscreen){
+            if (option_fullscreen=="yes"){
+              console.log("full screen?")
+              document.getElementById("fullscreen_image").style.display = "visible";
+              $('#fullscreen_image').attr("src","../../resources/"+image);
+            }
+            else{
+              document.getElementById("fullscreen_image").style.display = "none";
+              $('#resources_image').attr("src","../../resources/"+image);
+            }
+          });
+        } else {
+          document.getElementById("fullscreen_image").style.display = "none";
+          $('#images').addClass(image);
+        }
+      });
+    });
+  </script>
+</html>
