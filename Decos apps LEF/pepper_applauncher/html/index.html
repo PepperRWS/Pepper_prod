@@ -1,0 +1,91 @@
+<html>
+  <script src="scripts/qimessaging.js"></script>
+  <script src="scripts/naoqi.js"></script>
+  <script src="includes/jquery.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="includes/materialize/js/materialize.min.js"></script>
+  <script src="includes/jquery-circle-progress/dist/circle-progress.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+
+  <body>
+    <div class="centered_main_wrapper">
+      <div id="title" class="title"> </div>
+
+      <div class="app_wrapper" id="apps">
+        <!--div class="app">
+          <img class="icon z-depth-2" src="resources/favorite.png" />
+          <div class="name">Welcome App</div>
+        </div>
+
+        <div class="app">
+          <img class="icon z-depth-2" src="resources/foyer.png" />
+          <div class="name">Foyer</div>
+        </div>
+
+        <div class="app">
+          <img class="icon z-depth-2" src="resources/question.png" />
+          <div id="circle"></div>
+          <div class="name">Quizz</div>
+        </div-->
+      </div>
+    </div>
+  </body>
+
+  <script>
+
+    //var naoqi = NaoQiSession('pepper.local');
+    var naoqi = NaoQiSession('198.18.0.1');
+
+    var session= naoqi.session;
+
+    $.when( session.service("ALMemory"), session.service("ALAutonomousLife") ).then(function(mem, autonomouslife){
+      console.log("ALMemory!")
+      $.when(mem.getData("DecosAPPL/app_data")).then(function(data){
+        data = JSON.parse(data)
+
+        $('#title').html(data.title);
+        for(var app in data.apps){
+          var app_id= "app"+app;
+          $('#apps').append( stringToHTMLApp(app_id,data.apps[app]) )
+          $('#'+app_id).bind('touchstart', {app_id: data.apps[app].app_id} ,function(event){
+            autonomouslife.switchFocus(event.data.app_id)
+          })
+
+          //autostart
+          if(data.apps[app].default){
+            this.default_app= data.apps[app];
+            console.log("registering "+this.default_app.title+" as a default startup app. starting in 10s.")
+            setTimeout(function(){
+              autonomouslife.switchFocus(this.default_app.app_id)
+            }.bind(this), 10000);
+
+            $('#circle').circleProgress({
+              value: 1,
+              size: 150,
+              fill: {
+                gradient: ["red", "red"]
+              },
+              animation: { duration: 10000 }
+            });
+          }
+        }
+
+      });
+    });
+
+    function stringToHTMLApp(id,data){
+      var res = '<div id="'+id+'" class="app">' +
+        '<img class="icon z-depth-2" src="resources/'+data.app_logo+'" />'
+
+        if(data.default)
+          res+= '<div id="circle"></div>'
+
+        res += '<div class="name">'+data.title+'</div>' +
+      '</div>';
+      return res;
+    }
+
+  </script>
+</html>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="decos-app-launcher-service" version="0.0.2">
+ <names>
+  <name lang="en_US">decos-app-launcher-service</name>
+  <name lang="nl_NL">decos-app-launcher-service</name>
+ </names>
+ <descriptionLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path=".">
+   <userRequestable/>
+   <nature>solitary</nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="behavior_1">
+   <nature>solitary</nature>
+   <autonomous>
+    <condition purpose="launchTrigger"><![CDATA[('Launchpad/BatteryLevel' > 0)]]></condition>
+   </autonomous>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <services>
+  <service execStart="decos_applauncher.py" autorun="false" name="DecosAppLauncher"/>
+ </services>
+ <executableFiles>
+  <file path="decos_applauncher.py"/>
+ </executableFiles>
+</package>

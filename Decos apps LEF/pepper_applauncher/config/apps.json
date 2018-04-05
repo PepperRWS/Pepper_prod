@@ -1,0 +1,26 @@
+{
+  "title": "Kies een App",
+  "apps":[
+    {
+      "title": "Welcome App",
+      "app_id": "decos-welcomeapp/behavior_1",
+      "app_logo": "doormat.png"
+    },
+    {
+      "default": true,
+      "title": "Foyer",
+      "app_id": "decos-rws-foyer/.",
+      "app_logo": "foyer.png"
+    },
+    {
+      "title": "KR8 Quiz",
+      "app_id": "decos-leanquiz/behavior_1",
+      "app_logo": "question.png"
+    },
+    {
+      "title": "Evaluation App",
+      "app_id": "decos-goodbyeapp/behavior_1",
+      "app_logo": "favorite.png"
+    }
+  ]
+}

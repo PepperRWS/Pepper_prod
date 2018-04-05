@@ -1,0 +1,11 @@
+{
+  "title": "Kies een App",
+  "apps":[
+    {
+      "default": true,
+      "title": "Receptionist",
+      "app_id": "decos_globalapp/behavior_1",
+      "app_logo": "reception.png"
+    }
+  ]
+}
