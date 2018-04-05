@@ -1,0 +1,47 @@
+<html>
+  <script src="../../scripts/qimessaging.js"></script>
+  <script src="../../scripts/naoqi.js"></script>
+  <script src="../../includes/jquery.js"></script>
+  <link rel="stylesheet" href="../../includes/font-awesome/css/font-awesome.min.css">
+
+  <link type="text/css" rel="stylesheet" href="../../includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="../../includes/materialize/js/materialize.min.js"></script>
+
+  <script src="../../scripts/newResetButton.js"></script>
+  <link rel="stylesheet" href="../../css/newResetButton.css">
+  <script type="text/javascript" src="../../scripts/buttonclick.js"></script>
+  <link rel="stylesheet" href="../../css/buttonclick.css">
+
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <div class="centered_main_wrapper">
+      <img id="logo" />
+      <div id="images" class="fa"></div>
+      <div id="text"></div>
+    </div>
+  </body>
+
+  <script>
+    //var naoqi = NaoQiSession('pepperdecos2.decos.com');
+    var naoqi = NaoQiSession('198.18.0.1');
+    var session= naoqi.session;
+
+    addresetButton(session,'top',9999999999999999);
+
+    $.when( session.service("ALMemory") ).then(function(mem){
+      console.log("ALMemory!")
+      $.when(mem.getData("Decos/mod6/text"),mem.getData("Decos/mod6/images")).then(function(pepper_display, image){
+
+        $('#text').html(pepper_display);
+
+        if(image == ' '){
+          $.when(mem.getData("Decos/client/banner")).then(function(logo){
+            $('#logo').attr("src","../../resources/"+logo);
+          });
+        } else {
+          $('#images').addClass(image);
+        }
+      });
+    });
+  </script>
+</html>

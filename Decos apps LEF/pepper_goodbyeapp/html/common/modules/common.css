@@ -1,0 +1,36 @@
+@font-face {
+  font-family: "Open Sans";
+  src: url("../../resources/Proxima_Nova_Thin.otf") format("opentype");
+}
+
+html, body {
+  height: 100%;
+  background-color: rgb(255, 255 , 255);
+}
+
+.centered_main_wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+}
+
+.centered_main_wrapper_keyboard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 50%;
+}
+
+.centered_search_main_wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  height: 40%;
+}

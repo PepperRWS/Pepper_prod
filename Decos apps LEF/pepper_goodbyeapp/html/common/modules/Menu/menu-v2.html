@@ -1,0 +1,85 @@
+<html>
+  <script src="../../scripts/qimessaging.js"></script>
+  <script src="../../scripts/naoqi.js"></script>
+  <script src="../../includes/jquery.js"></script>
+  <link rel="stylesheet" href="../../includes/font-awesome/css/font-awesome.min.css">
+
+  <link type="text/css" rel="stylesheet" href="../../includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="../../includes/materialize/js/materialize.min.js"></script>
+
+  <script src="../../scripts/newResetButton.js"></script>
+  <link rel="stylesheet" href="../../css/newResetButton.css">
+  <script type="text/javascript" src="../../scripts/buttonclick.js"></script>
+  <link rel="stylesheet" href="../../css/buttonclick.css">
+
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <div class="centered_main_wrapper">
+      <div id="title" class="title"> </div>
+      <div class="question_wrapper" id="question_list"> </div>
+    </div>
+  </body>
+
+  <script>
+    //var naoqi = NaoQiSession('pepperdecos2.decos.com');
+    var naoqi = NaoQiSession('198.18.0.1');
+    var session= naoqi.session;
+
+    var button_time= 20000;
+
+    $.when( session.service("ALMemory") ).then(function(mem){
+
+      console.log("ALMemory!")
+      $.when(mem.getData("Decos/mod2/title"),mem.getData("Decos/mod2/menuoptions"),mem.getData("Decos/Menu/timeout/default_id")).then(function(title,options,default_option){
+        //var resetButton= addresetButton(session,'top',button_time);
+        var resetButton= addresetButton(session,'top',button_time,function(){
+          if(default_option != -1){
+            $( "#question_"+(default_option-1) ).trigger( "touchstart" );
+            console.log("Found default timeout option "+default_option )
+          }
+          else{
+            $( ".resetbutton" ).trigger( "touchstart" );
+            console.log("No default timeout option found")
+          }
+        });
+
+        $('#title').html(title);
+
+        menu_options = JSON.parse(options)
+
+        for(var oid = 0; oid < menu_options.length ; oid++){
+          menu_option = menu_options[oid]
+          option_hidden = "is_hidden" in menu_option ? menu_option["is_hidden"] : false;
+
+          if(!option_hidden){
+            $( "#question_list").append("<button class='button question waves-effect waves-light btn' id='question_"+oid+"' value='"+oid+"'>"+menu_option.option_text+"</button>");
+
+            if("option_large" in menu_option)
+              if(menu_option.option_large == "yes")
+                $( "#question_"+oid ).addClass("question_big");
+
+            $( "#question_"+oid ).bind('touchstart', {value: (oid+1)} ,function(event){
+              mem.raiseEvent("Decos/mod2/Tablet/touch", String(event.data.value) );
+            });
+          }
+        }
+
+        mem.subscriber("Decos/Menu/not_understood").done(function (subscriber) {
+          subscriber.signal.connect(function (scoreid) {
+            resetButton.resetTimer(button_time)
+          });
+        });
+
+        mem.subscriber("Decos/Menu/option_said").done(function (subscriber) {
+          subscriber.signal.connect(function (option_id) {
+            $( "#question_"+option_id ).addClass('animation-bclick');
+          });
+        });
+
+      });
+
+    });
+
+
+  </script>
+</html>

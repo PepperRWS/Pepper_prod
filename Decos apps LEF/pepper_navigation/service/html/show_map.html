@@ -1,0 +1,134 @@
+<html>
+  <script src="scripts/qimessaging.js"></script>
+  <script src="scripts/naoqi.js"></script>
+  <script src="includes/jquery.js"></script>
+  <link rel="stylesheet" href="includes/font-awesome/css/font-awesome.min.css">
+  <style>
+    #red_dot {
+      background: #f00;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    #blue_dot {
+      background: #0000FF;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    #green_dot {
+      background: #00FF00;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    #dot_wrapper {
+      position: relative;
+    }
+
+    #map_wrapper:before {
+        position: absolute;
+        content: '';
+        background-color:#FF0000;
+        border-radius:50%;
+        opacity:0.5;
+        width: 229px;
+        height: 229px;
+        pointer-events: none;
+    }
+
+    .img_parent{
+      height: 600px;
+    }
+
+    img {
+      display: block;
+      height: 70%;
+      width: auto;
+    }
+
+  </style>
+  <body>
+    <div class="map_wrapper">
+      <div class="img_parent">
+        <img id='map_pepper'/>
+        <p id="map_name">No map loaded</p>
+      </div>
+      <div class="dot_wrapper">
+        <div id="green_dot"></div>
+        <div id="red_dot"></div>
+        <div id="blue_dot"></div>
+      </div>
+
+    </div>
+  </body>
+
+  <script>
+    var naoqi = NaoQiSession('pepper.local');
+    //var naoqi = NaoQiSession('198.18.0.1');
+    var session= naoqi.session;
+
+    var red_dot = document.getElementById('red_dot');
+    red_dot.style.position = "absolute";
+    var blue_dot = document.getElementById('blue_dot');
+    blue_dot.style.position = "absolute";
+    var green_dot = document.getElementById('green_dot');
+    green_dot.style.position = "absolute";
+
+    var map_onclick = document.getElementsByClassName("map_wrapper");
+    var click_position = [0,0];
+
+    var img_map = document.getElementById('map_pepper');
+    var resized_dimension_map = [img_map.clientWidth,img_map.clientHeight];
+    var original_dimension_map = [img_map.naturalWidth,img_map.naturalHeight];
+
+    $.when( session.service("DecosNavigation") ).then(function(nav){
+      console.log("Decos navigation starting");
+      $.when (nav.getJpegMap()).then(function(base64){
+        console.log("Got the base64 map");
+        document.getElementById('map_pepper').setAttribute( 'src', 'data:image/png;base64,'+base64 );
+      })
+      $(document).load(function() {
+        resized_dimension_map = [img_map.clientWidth,img_map.clientHeight];
+        original_dimension_map = [img_map.naturalWidth,img_map.naturalHeight];
+        console.log(resized_dimension_map, original_dimension_map);
+      });
+      $.when (nav.getMapName()).then(function(map_name){
+        console.log("Got map_name " + map_name);
+        document.getElementById("map_name").innerHTML = map_name;
+      })
+
+      function printMousePos(event) {
+          click_position[0] = (event.clientX*original_dimension_map[0])/resized_dimension_map[0];
+          click_position[1] = (event.clientY*original_dimension_map[1])/resized_dimension_map[1];
+          console.log(click_position[0],click_position[1]);
+          nav.goToPixel(click_position[0],click_position[1]);
+      }
+
+      document.addEventListener("click", printMousePos);
+
+      setInterval(function() {
+        $.when( nav.getPositionInPixels() ) .then( function(pixels){
+          resized_dimension_map = [img_map.clientWidth,img_map.clientHeight];
+          original_dimension_map = [img_map.naturalWidth,img_map.naturalHeight];
+          red_dot.style.left = ((resized_dimension_map[0]*pixels[0])/original_dimension_map[0])+'px';
+          red_dot.style.top = ((resized_dimension_map[1]*pixels[1])/original_dimension_map[1])+'px';
+          console.log(pixels)
+        }.bind(this) )
+        $.when( nav.getGoal() ) .then( function(goal_in_pixels){
+          blue_dot.style.left = ((resized_dimension_map[0]*goal_in_pixels[0])/original_dimension_map[0])+'px';
+          blue_dot.style.top = ((resized_dimension_map[1]*goal_in_pixels[1])/original_dimension_map[1])+'px';
+        }.bind(this) )
+      }, 1000);
+
+      setInterval(function() {
+        $.when( nav.getHomePosition() ) .then( function(home_pixels){
+          green_dot.style.left = ((resized_dimension_map[0]*home_pixels[0])/original_dimension_map[0])+'px';
+          green_dot.style.top = ((resized_dimension_map[1]*home_pixels[1])/original_dimension_map[1])+'px';
+        })
+      }, 10000);
+    });
+
+  </script>
+</html>

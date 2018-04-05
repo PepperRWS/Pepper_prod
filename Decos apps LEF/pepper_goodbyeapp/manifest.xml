@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="decos-goodbyeapp" version="0.0.2">
+ <names>
+  <name lang="en_US">decos-goodbyeApp</name>
+  <name lang="nl_NL">decos-goodbyeapp</name>
+ </names>
+ <descriptionLanguages>
+  <language>nl_NL</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="nl_NL">Decos App</name>
+   </names>
+   <descriptions>
+    <description lang="nl_NL">decos app</description>
+   </descriptions>
+   <tags>
+    <tag lang="nl_NL">decos</tag>
+    <tag lang="nl_NL">app</tag>
+   </tags>
+   <triggerSentences>
+    <sentence lang="nl_NL">daycos</sentence>
+    <sentence lang="nl_NL">decos</sentence>
+   </triggerSentences>
+   <permissions>
+    <canRunOnPod/>
+    <canStandUp/>
+   </permissions>
+  </behaviorContent>
+  <behaviorContent path="animations/byebyewave">
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/pointright">
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+  <behaviorContent path="animations/left_wave">
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <services>
+  <service autorun="true" name="DecosRatingService" execStart="rating_service.py"/>
+ </services>
+ <executableFiles>
+  <file path="rating_service.py"/>
+ </executableFiles>
+</package>

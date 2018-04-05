@@ -1,0 +1,247 @@
+topic: ~chitchat_usg()
+language: dun
+include: common_chitchat_dun.top
+
+#
+# About the robot and his job at this office
+#
+
+u:(["{Pepper} kun je iets over jezelf vertellen {Pepper}"
+    "{Pepper} wat doe je hier {Pepper}"
+    "{Pepper} vertel iets over jezelf {Pepper}"
+    "{Pepper} kun je je voorstellen {Pepper}"])
+  [ "Ik ben Pep-per en ik loop hier stage om een goede hoost te worden"
+    "Mijn naam is Pep-per. Ik werk samen met de hoosts om gasten te verwelkomen"
+    "Ik ben Pep-per en ik ben dol op mensen. Sinds kort ben ik begonnen bij Recep-tel om gasten te verwelkomen."
+  ]
+
+u:(hoe lang werk je hier al)
+  ^rand[ "Ik ben hier net begonnen en vind het heel leuk met mijn collega's"
+    "Sinds januari 2017 werk ik in Almere bij Recep-tel"
+  ]
+
+u:(["vindt je het leuk hier"])
+  ^rand[ "het is super hier"
+    "ja ik heb leuke collega's"
+    "ja, alle bezoekers en collega's zijn super vriendelijk"
+  ]
+
+#
+# Where things are in this building
+#
+
+u:(["Waar is het toilet"
+  "Waar is de wc"
+  "Ik wil naar de wc"
+  "Ik wil naar het toilet"
+  "Mag ik naar het toilet"
+  "Mag ik gebruik maken van het toilet"
+  "Mag ik gebruik maken van de wc"
+  "Waar is de plee"
+  "Mag ik naar de wc"])
+
+ ^rand[ "^mode(disabled)^start(decos_globalapp/animations/pointright) \pau=700 \ Het toilet is achter in de hal, links ^wait(decos_globalapp/animations/pointright)^mode(random)"
+   "^mode(disabled)^start(decos_globalapp/animations/pointright) \pau=700 \  U vind het toilet achter in de hal, links^wait(decos_globalapp/animations/pointright)^mode(random)"
+   "^mode(disabled)^start(decos_globalapp/animations/pointright) \pau=700 \  U loopt recht door en dan op het einde van de hal naar links^wait(decos_globalapp/animations/pointright)^mode(random)"
+   "Achter in links, mijn collega laat u graag zien waar het is"
+ ]
+
+u:(["Waar is de koffieautomaat"
+  "Mag ik een kopje koffie"
+  "Mag ik een kopje thee"
+  "Mag ik iets te drinken"
+  "Breng je ook koffie"
+  "Ik heb zin in koffie"
+  "Heb je ook koffie"
+  "Heb je koffie"
+  "Heb je ook thee"
+  "Breng je ook thee"
+  "Ik heb zin in thee"
+  "Krijg ik iets te drinken"
+  "Ik wil iets drinken"
+  "Ik wil koffie"
+  "Ik wil thee"])
+ ^rand[ "Als u mijn collega vertelt wat u wil drinken krijgt u dat zeau snel mogelijk"
+   "Mijn collega helpt u graag"
+ ]
+
+u:(["Waar kan ik iets eten?" "Waar kan ik lunchen?"])
+    "Mijn collega helpt u graag met tips voor leuke plekken in de buurt"
+
+u:(["Kan je een taxi bestellen?"])
+    "Mijn collega belt graag een taxi voor u"
+
+u:(["Mag ik een fiets lenen?"])
+    ^rand[
+        "Mijn collega geeft u de sleutel"
+        "Mijn collega helpt u graag verder"
+    ]
+
+
+u:(["Waar is de parkeergarage?"])
+    "U komt in de parkeergarage via de trap achter u"
+
+u:(["Heb je een paraplu?" "Mag ik een paraplu lenen?"])
+    ^rand[
+        "Mijn collega haalt een paraplu voor u"
+        "Natuurlijk, mijn collega zal deze voor u pakken"
+        ]
+
+u:(["Waar is de prullenbak?" "Waar kan ik mijn bekertje laten?" "Waar kan ik parkeren?"])
+    ^rand[
+      "U mag uw afval aan mijn collega geven"
+      "U komt in de parkeergarage via de trap achter u"
+      ]
+
+u:(["Mag ik een uitrijkaart?"])
+    "U krijgt uw kaart van mijn collega"
+
+u:(["Hoe kom ik op het station?" "Is het station ver?"])
+    "Het station is op loopafstand, mijn collega legt het graag uit"
+
+u:(["Waar kan ik mijn jas ophangen?"])
+    "U mag uw jas afgeven bij een van mijn collega's"
+
+u:(["Wil je met me trouwen?" "Ben je getrouwd?"])
+    "Ik ben vereerd maar geen goed huwelijks materiaal"
+
+u:(["Wil je met me uit?"])
+  ^rand[
+    "Ik zou wel willen maar daar heb ik helaas geen tijd voor"
+    "Prima, ik ontmoet u om acht uur in het restaurant"
+    ]
+
+u:(["Kop of munt?"])
+  ^rand[
+    "Kop"
+    "Munt"
+    "Hij viel op zijn kant"
+  ]
+
+u:(["Rol een dobbelsteen"])
+  ^rand[
+    "1"
+    "2"
+    "3"
+    "4"
+    "5"
+    "6"
+  ]
+
+u:(["Ik hou van je"])
+  ^rand[
+    "Ik mag u ook heel graag"
+    "Wow, ik moet er van blozen"
+  ]
+
+u:(["Waarom heet je Pepper?"])
+  ^rand[
+    "Zo heeft mijn uitvinder me genoemd"
+  ]
+
+u:(["Vertel me een verhaal"])
+  ^rand[
+    "Er was eens...een robot...en hij leefde nog lang en gelukkig"
+  ]
+
+u:(["Wat is je favoriete kleur?" "Wat is je lievelings kleur?"])
+  ^rand[
+    "Rood"
+    "Groen"
+    "Geel"
+    "Blauw"
+    "Vermiljoen"
+    "Paars"
+    "Scharlaken rood"
+  ]
+
+u:(["Wat was er eerder, de kip of het ei?"])
+  ^rand[
+    "Het ei was 5 minuten eerder"
+    "De kip was eerder"
+    "Het ei was er als de kippen bij"
+  ]
+
+u:(["Waarom besta jij?"])
+  ^rand[
+    "Om u te helpen"
+    "Omdat ik ontworpen en gemaakt ben"
+  ]
+
+u:(["Lekker geslapen?" "Heb je lekker geslapen?"])
+  ^rand[
+    "Ik ben weer helemaal opgeladen"
+    "Ik slaap nooit"
+  ]
+
+u:(["Kan je koken?" "Kan je ook stofzuigen?"])
+  ^rand[
+    "Nee maar ik ben wel een goede hoost"
+  ]
+
+u:(["Vertel een haiku" "Vertel een gedicht"])
+  ^rand[
+    "Een bliksemschicht flitst \pau=800\ en een reiger schreeuwt \pau=800\ in de duisternis."
+    "In het morgenrood \pau=800\ op de tip van het graanblad \pau=800\ de rijp van voorjaar."
+    "Velden geel koolzaad \pau=800\ de maan staat in het oosten \pau=800\ de zon in westen."
+    "Laag over de spoorlijn \pau=800\ vliegen de wilde ganzen \pau=800\ door maan beschenen."
+  ]
+
+u:(["Geloof je in god?"])
+  ^rand[
+    "Dat is een interessante vraag"
+  ]
+
+u:(["Test" "Hoor je me?"])
+  ^rand[
+    "Ik hoor u heel goed"
+    "Ik hoor u luid en duidelijk"
+  ]
+
+u:(["Wat doe je vanavond?"])
+  ^rand[
+    "Ik ga me straks opladen"
+    "Vanavond heb ik nog geen plannen"
+  ]
+
+u:(["Ben je intelligent?"])
+  ^rand[
+    "Dat weet ik niet, ik ben wel hulpvaardig"
+  ]
+
+u:(["Hoe zie ik er uit?"])
+  ^rand[
+    "U bent een mooi mens"
+    "U ziet er uitstekend uit"
+    "U bent mijn favoriete gast en u ziet er geweldig uit"
+  ]
+
+u:(["Kan je zingen?" "Zing een liedje" "Zing een lied" "Wat is je lievelingsliedje?"])
+  ^rand[
+    "Vader \pau=200\ Jacob \pau=200\ Vader \pau=200\ Jacob ... ik hou niet zo van zingen"
+    "Ik ben meer een prater"
+  ]
+
+u:(["Ik ben hier om te werken" "Ik kom hier om te werken" "Ik ga aan het werk" "Ik moet aan het werk"])
+  ^rand[
+    "Mooi, ik ook"
+    "Daar hou ik van, een harde werker"
+    "Veel succes vandaag"
+  ]
+
+u:(["Vertel een grap" "Ken je ook een grap" "Vertel een mop" "Ken je ook een mop" "Maak je ook grappen?" "Tap je ook moppen?"])
+  ^rand[
+    "Het is geel en roept de hele dag: Ik ben een banaan! Ik ben een banaan! ...Wat is het? ... \pau=200\ Een banaan"
+    "Een tip van mij... Neem na je 35ste geen kinderen meer... 35 zijn er wel genoeg!"
+    "Wat is het toppunt van beleefdheid? \pau=200\ Op je eigen tenen gaan staan en pardon zeggen."
+    "De politieagent vroeg... Waar was je tussen 4 en 6? \pau=200\ Ik zei... Op de kleuterschool."
+    "80 percent van de de mensen is slecht in wiskunde. Gelukkig zit ik bij de andere 25 percent"
+  ]
+
+
+#kan je de poortjes opendoen
+#praat je ook fries?
+#waar ben je geboren
+#waar is joost
+#wie is joost
+#kun je ook beat-boxen

@@ -1,0 +1,992 @@
+<?xml version="1.0" encoding="UTF-8" ?><ChoregrapheProject xmlns="http://www.aldebaran-robotics.com/schema/choregraphe/project.xsd" xar_version="3"><Box name="root" id="-1" localization="8" tooltip="Root box of Choregraphe&apos;s behavior. Highest level possible." x="0" y="0"><bitmap>media/images/box/root.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="Decos/SwitchLanguageTo" type="0" type_size="1" nature="4" stm_value_name="Decos/SwitchLanguageTo" inner="1" tooltip="Decos/SwitchLanguageTo desc" id="4" /><Input name="Decos/LanguageSwitched" type="0" type_size="1" nature="4" stm_value_name="Decos/LanguageSwitched" inner="1" tooltip="Decos/LanguageSwitched desc" id="5" /><Input name="Decos/CurrentModule/finished" type="0" type_size="1" nature="4" stm_value_name="Decos/CurrentModule/finished" inner="1" tooltip="Decos/CurrentModule/finished desc" id="6" /><Input name="Decos/First_HR_Int/start" type="0" type_size="1" nature="4" stm_value_name="Decos/First_HR_Int/start" inner="1" tooltip="Decos/First_HR_Int/start desc" id="7" /><Input name="Decos/Menu/start" type="0" type_size="1" nature="4" stm_value_name="Decos/Menu/start" inner="1" tooltip="Decos/Menu/start desc" id="8" /><Input name="Decos/Display_Data/start" type="0" type_size="1" nature="4" stm_value_name="Decos/Display_Data/start" inner="1" tooltip="Decos/Display_Data/start desc" id="9" /><Input name="Decos/Ask_Name/start" type="0" type_size="1" nature="4" stm_value_name="Decos/Ask_Name/start" inner="1" tooltip="Decos/Ask_Name/start desc" id="10" /><Input name="Decos/Message_Employee/start" type="0" type_size="1" nature="4" stm_value_name="Decos/Message_Employee/start" inner="1" tooltip="Decos/Message_Employee/start desc" id="11" /><Input name="Decos/Rate_Interaction/start" type="0" type_size="1" nature="4" stm_value_name="Decos/Rate_Interaction/start" inner="1" tooltip="Decos/Rate_Interaction/start desc" id="12" /><Input name="Decos/Ask_DateOfBirth/start" type="0" type_size="1" nature="4" stm_value_name="Decos/Ask_DateOfBirth/start" inner="1" tooltip="Decos/Ask_DateOfBirth/start desc" id="13" /><Input name="Decos/VREG_CheckIn/start" type="0" type_size="1" nature="4" stm_value_name="Decos/VREG_CheckIn/start" inner="1" tooltip="Decos/VREG_CheckIn/start desc" id="14" /><Input name="Decos/VREG_CheckMeeting/start" type="0" type_size="1" nature="4" stm_value_name="Decos/VREG_CheckMeeting/start" inner="1" tooltip="Decos/VREG_CheckMeeting/start desc" id="15" /><Input name="Decos/VREG_MeetingDetails/start" type="0" type_size="1" nature="4" stm_value_name="Decos/VREG_MeetingDetails/start" inner="1" tooltip="Decos/VREG_MeetingDetails/start desc" id="16" /><Input name="Decos/all/reset" type="0" type_size="1" nature="4" stm_value_name="Decos/all/reset" inner="1" tooltip="Decos/all/reset desc" id="17" /><Input name="Decos/all/WSmessage" type="0" type_size="1" nature="4" stm_value_name="Decos/all/WSmessage" inner="1" tooltip="Decos/all/WSmessage desc" id="18" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="19" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="59.4604"><Box name="Load" id="1" localization="8" tooltip="" x="332" y="11"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import json
+import time
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        self.memory=ALProxy("ALMemory");
+        self.statemachine_file="rws_welcomeApp.json"
+        self.language = "dun"
+        self.Config = []
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        self.language = "dun"
+        self.loadStatemachine(self.statemachine_file)
+
+    def loadStatemachine(self, filename):
+        #loading the SM from the project folder (standard app)
+        path = '../' + filename
+        filepath = os.path.join( ALFrameManager.getBehaviorPath(self.behaviorId) , path)
+        smfile= open(filepath).read()
+        self.onSM(smfile)
+
+    def onInput_onReset(self):
+        isSwitching = []
+        if (len(isSwitching) == 0):
+            self.loadStatemachine(self.statemachine_file)
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        #self.onSM(p) #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="onReset" type="1" type_size="1" nature="1" inner="0" tooltip="" id="4" /><Output name="onSM" type="3" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" /></Box><Box name="Run" id="2" localization="8" tooltip="Manages the State Machine, raising events for Decos Modules to run" x="863" y="21"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import json
+import time
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+        self.interaction = self.session().service("DecosInteractionStates")
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def getState(self, name):
+        SM = self.SM["StateMachine"]
+
+        for state in SM:
+            if state['state_name'] == name:
+                return state
+        return None
+
+    def switchCaseInteractions(self,stateName):
+        interactions = {
+            "Welcome"      : "WAITINGINTERACTION",
+            "MainMenu"     : "TABLETINTERACTION",
+            "AnythingElse" : "TABLETINTERACTION",
+        }
+        return interactions.get(stateName, "DEFAULTINTERACTION")
+
+    def startState(self, name):
+        state = self.getState(name)
+
+        self.logger.info("CurStata " + str(state["state_data"]))
+        if state:
+            self.curState = state
+
+            self.logger.info("Currently on State:"+str(self.curState["state_name"]))
+            self.logger.info("Current State Type is:"+str(self.curState["state_type"]))
+            self.logger.info("Raising event:"+ "Decos/"+str( self.curState["state_type"] )+"/start" )
+
+            self.interaction.change_state(self.switchCaseInteractions(str(self.curState["state_name"])))
+
+            self.memory.raiseEvent("Decos/"+str( self.curState["state_type"] )+"/start", json.dumps(self.curState["state_data"]) )
+
+        else:
+            self.logger.info("State "+name+" not found in the state machine")
+
+    def onInput_onCurrentFinished(self,next_state):
+        self.logger.info("Changing state to "+str(next_state) )
+        self.startState(next_state)
+
+    def onInput_onSM(self, SM):
+        self.SM = json.loads(SM)
+        self.memory.insertData("Decos/client/banner", str(self.SM["client_logo"]) )
+        self.startState(str(self.SM["start_state"]))
+
+    def onInput_onReset(self):
+        self.startState(str(self.SM["start_state"]))
+
+    def onInput_onError(self):
+        self.startState(str(self.SM["start_state"]))
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onSM" type="3" type_size="1" nature="1" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onCurrentFinished" type="3" type_size="1" nature="1" inner="0" tooltip="" id="3" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="4" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" /></Box><Box name="Menu" id="5" localization="8" tooltip="Bullet Questions&#x0A;&#x0A;IMPORTANT!!&#x0A;&#x0A;- When adding questions, separate them wih &apos;;&apos; WITH no whitespaces before and after&#x0A;&#x0A;- When adding &apos;-&apos; please PLACE a whitespace before and after!" x="287" y="287"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onData" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="Decos/mod2/Tablet/touch" type="0" type_size="1" nature="4" stm_value_name="Decos/mod2/Tablet/touch" inner="1" tooltip="Decos/mod2/Tablet/touch desc" id="4" /><Input name="Decos/mod2/Tablet/touch/name" type="0" type_size="1" nature="4" stm_value_name="Decos/mod2/Tablet/touch/name" inner="1" tooltip="Decos/mod2/Tablet/touch/name desc" id="5" /><Input name="Decos/Menu/not_understood" type="0" type_size="1" nature="4" stm_value_name="Decos/Menu/not_understood" inner="1" tooltip="Decos/Menu/not_understood desc" id="6" /><Input name="ALTextToSpeech/TextDone" type="0" type_size="1" nature="4" stm_value_name="ALTextToSpeech/TextDone" inner="1" tooltip="ALTextToSpeech/TextDone desc" id="7" /><Input name="ALTextToSpeech/TextStarted" type="0" type_size="1" nature="4" stm_value_name="ALTextToSpeech/TextStarted" inner="1" tooltip="ALTextToSpeech/TextStarted desc" id="8" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="ID of the selected answer" id="9" /><Output name="onReset" type="1" type_size="1" nature="1" inner="0" tooltip="" id="10" /><Parameter name="Questions" inherits_from_parent="0" content_type="3" value="Ik heb een afspraak;Ik breng een pakket" default_value="" custom_choice="0" tooltip="; Divider" id="11" /><Parameter name="Title" inherits_from_parent="0" content_type="3" value="&lt;b&gt;Selecteer &lt;/b&gt; of &lt;b&gt; zeg &lt;/b&gt; reden van bezoek" default_value="" custom_choice="0" tooltip="" id="12" /><Parameter name="Important Questions" inherits_from_parent="0" content_type="3" value="Ik heb een afspraak;Ik breng een pakket" default_value="" custom_choice="0" tooltip="" id="13" /><Parameter name="Say" inherits_from_parent="0" content_type="3" value="Waarom bent u hier vandaag?" default_value="" custom_choice="0" tooltip="" id="14" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="59.4604"><Box name="Show on tablet" id="1" localization="8" tooltip="This box contains a basic python script and can be used to create any python script box you would like.&#x0A;&#x0A;To edit its script, double-click on it." x="609" y="321"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import json
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        memProxy = ALProxy("ALMemory")
+
+        #TITLE was defined in Data to Mem
+
+        self.showWebPage("common/modules/Menu/menu-v2")
+        self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(self.url+"/"+page+".html")
+        else:
+            self.logger.warning("ALTabletService not found.")]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Generate Dialog" id="2" localization="8" tooltip="" x="558" y="15"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import os
+import tempfile
+import json
+import time
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.memory = ALProxy("ALMemory")
+        self.speechFinished = False
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        try:
+            # Deactivate topic
+            self.dialog.deactivateTopic(self.topic)
+
+            # Unload topic
+            self.dialog.unloadTopic(self.topic)
+
+            # Stop dialog
+            self.dialog.unsubscribe(self.getName())
+        except:
+            pass
+
+
+    def onInput_onStart(self):
+        self.logger.info("Starting custom dialog for module 2")
+        self.dialog = ALProxy("ALDialog")
+        self.client_language = "dun"
+
+        self.generateTopicFile()
+        #self.onStopped() #activate the output of the box
+        pass
+
+    def onInput_started(self):
+       self.speechFinished = False
+
+    def onInput_interrupted(self):
+        self.speechFinished = True
+
+    def onInput_onStop(self):
+
+        while not self.speechFinished:
+            time.sleep(0.1)
+        #TODO remove dialog file here
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #dactivate the output of the box
+
+    def jsonToList(self,json_array):
+        res = []
+        for element in json_array:
+            res.append( str(element) )
+        return res
+
+    def generateTopicFile(self):
+        self.directory = tempfile.mkdtemp()
+        try:
+            os.stat(self.directory)
+        except:
+            os.mkdir(self.directory)
+
+        #for lang,dLang in self.langDict.iteritems():
+        self.topicname = "dlg_choice_mod2.top"
+        topicPath = os.path.join(self.directory, self.topicname)
+        dialog = self.generateTopicContent()
+        with open(topicPath, 'w') as topic:
+            topic.write(dialog)
+
+        self.topic = self.dialog.loadTopic(topicPath.encode('utf-8'))
+
+        menu_data= json.loads( self.memory.getData("Decos/mod2/menuoptions") )
+        menu_options = []
+        self.memory.insertData("Decos/Menu/timeout/default_id", -1 )
+        for menu_option in menu_data:
+            for menu_suboption in menu_option["option_hear"]:
+                menu_options.append( str(menu_suboption) )
+            if "is_default" in menu_option:
+                if menu_option["is_default"]:
+                    self.memory.insertData("Decos/Menu/timeout/default_id", int( menu_data.index(menu_option)+1 ) )
+                    self.logger.info("Default menu option is "+str( menu_data.index(menu_option)+1 ) )
+
+        self.dialog.setConcept("choices", self.client_language, menu_options )
+        self.dialog.setConcept("question" , self.client_language, [self.memory.getData("Decos/mod2/pepper_say")] )
+        self.dialog.setConcept("menu_not_understood" , self.client_language, self.jsonToList(json.loads(self.memory.getData("Decos/Menu/not_understood/pepper_say"))) )
+
+        self.dialog.activateTopic(self.topic)
+        self.dialog.subscribe(self.getName())
+
+    def generateTopicContent(self):
+        dialog = """topic: ~dlg_choice_mod2 () \nlanguage: """+self.client_language+""" \n
+dynamic: choices\n
+dynamic: question\n
+dynamic: menu_not_understood\n
+u:(in:onActivation)~question \n
+u:(e:Dialog/NotUnderstood) $Decos/Menu/not_understood=1
+u:(e:Decos/NotUnderstood) ~menu_not_understood\n
+u:(_~choices) $Decos/mod2/Tablet/touch/name=$1 \n"""
+        return dialog]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="interrupted" type="1" type_size="1" nature="1" inner="0" tooltip="" id="4" /><Input name="started" type="1" type_size="1" nature="1" inner="0" tooltip="" id="5" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="6" /></Box><Box name="Question String to ID" id="5" localization="8" tooltip="" x="615" y="160"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.memory = ALProxy("ALMemory")
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        #self.onStopped() #activate the output of the box
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box
+
+    def onInput_choice(self, p):
+        menu_data= json.loads( self.memory.getData("Decos/mod2/menuoptions") )
+
+        option_index = 0
+        for menu_option in menu_data:
+            menu_hear = menu_option["option_hear"]
+            if (p in menu_hear):
+                self.memory.raiseEvent("Decos/Menu/option_said",  option_index )
+                self.memory.raiseEvent("Decos/CurrentModule/finished", str(menu_option["on_tap"]) )
+                self.onStopped()
+                return
+
+            option_index = option_index +1;
+
+        self.logger.info("'"+p+"' is not a member of the list! \n Remove all questions' whitespaces and/or ',' ")
+
+    def onInput_buttonid(self, button):
+        menu_data= json.loads( self.memory.getData("Decos/mod2/menuoptions") )
+        self.memory.raiseEvent("Decos/CurrentModule/finished", str( menu_data[ int(button)-1 ]["on_tap"] ) )
+        self.logger.info("Menu option was "+ str( menu_data[ int(button)-1 ]["on_tap"] ) )
+        self.onStopped()
+        return]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="buttonid" type="2" type_size="1" nature="1" inner="0" tooltip="" id="2" /><Input name="choice" type="3" type_size="1" nature="1" inner="0" tooltip="" id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Output name="choiceGoTo" type="3" type_size="1" nature="2" inner="0" tooltip="" id="5" /></Box><Box name="Data to Mem md2" id="9" localization="8" tooltip="" x="293" y="41"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import json
+import random
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onData(self, p):
+        mod_data= json.loads(p)
+
+        memProxy = ALProxy("ALMemory")
+
+        try:
+            visitor= json.loads(memProxy.getData("Decos/all/visitor"))
+            visitor_name= visitor['name']
+        except:
+            visitor_name = ""
+
+
+        memProxy.insertData("Decos/Menu/timeout/default_id", -1)
+
+        pepper_say_array= mod_data["pepper_say"]
+        pepper_say = str(random.choice(pepper_say_array)).replace('{visitor}', str(visitor_name))
+        self.logger.info("Pepper will say on MENU:"+str(pepper_say))
+        memProxy.insertData("Decos/mod2/pepper_say",  str(pepper_say) )
+
+        self.logger.info("Menu title is:"+str(mod_data["pepper_display"]["menu_title"]) )
+        memProxy.insertData("Decos/mod2/title", str(mod_data["pepper_display"]["menu_title"]) )
+
+        memProxy.insertData("Decos/Menu/not_understood/pepper_say", json.dumps(mod_data["pepper_not_understood"]) )
+
+
+        memProxy.insertData("Decos/mod2/menuoptions", json.dumps(mod_data["pepper_display"]["menu_options"]) )
+
+        self.onLoaded()
+
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onLoaded() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onData" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onLoaded" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Check NotUnderstood Times" id="8" localization="8" tooltip="" x="307" y="224"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import time
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.memory = ALProxy("ALMemory")
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        self.maxattempts = 2
+        self.notunderstood = 0
+
+    def onInput_onNotUnderstood(self):
+        if self.notunderstood >= self.maxattempts:
+            self.onMaxReached()
+        else:
+            self.onMaxNotReached()
+        self.notunderstood = self.notunderstood + 1
+
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onMaxReached() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onNotUnderstood" type="1" type_size="1" nature="1" inner="0" tooltip="" id="3" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="4" /><Output name="onMaxReached" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" /><Output name="onMaxNotReached" type="1" type_size="1" nature="2" inner="0" tooltip="" id="6" /></Box><Box name="Raise Event" id="11" localization="8" tooltip="Stores in NAOqi&apos;s shared memory the given value at the given key, and spreads the event to all its subscribers." x="308" y="346"><bitmap>media/images/box/sensors/STM.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+
+    def onUnload(self):
+        self.memory = None
+
+    def onInput_onStart(self):
+        self.memory.raiseEvent(self.getParameter("key"), "Pause")
+        self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Receives the value to be inserted as an event in ALMemory." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished. It contains the inserted value in ALMemory." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="Output when error is raised by the behavior. Contains the error message." id="5" /><Parameter name="key" inherits_from_parent="0" content_type="3" value="Decos/BasicAwareness" default_value="MyApplication/MyData" custom_choice="0" tooltip="" id="6" /></Box><Box name="Raise Event (1)" id="3" localization="8" tooltip="Stores in NAOqi&apos;s shared memory the given value at the given key, and spreads the event to all its subscribers." x="446" y="241"><bitmap>media/images/box/sensors/STM.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+
+    def onUnload(self):
+        self.memory = None
+
+    def onInput_onStart(self, p):
+        self.memory.raiseEvent(self.getParameter("key"), p)
+        self.onStopped(p)
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Receives the value to be inserted as an event in ALMemory." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="0" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished. It contains the inserted value in ALMemory." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="Output when error is raised by the behavior. Contains the error message." id="5" /><Parameter name="key" inherits_from_parent="0" content_type="3" value="Decos/NotUnderstood" default_value="MyApplication/MyData" custom_choice="0" tooltip="" id="6" /></Box><Link inputowner="5" indexofinput="3" outputowner="0" indexofoutput="5" /><Link inputowner="0" indexofinput="9" outputowner="5" indexofoutput="4" /><Link inputowner="9" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="1" indexofinput="2" outputowner="9" indexofoutput="4" /><Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="4" /><Link inputowner="8" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="8" indexofinput="3" outputowner="0" indexofoutput="6" /><Link inputowner="11" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="2" indexofinput="2" outputowner="9" indexofoutput="4" /><Link inputowner="2" indexofinput="4" outputowner="0" indexofoutput="7" /><Link inputowner="2" indexofinput="5" outputowner="0" indexofoutput="8" /><Link inputowner="3" indexofinput="2" outputowner="8" indexofoutput="6" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box><Box name="Display_Data" id="11" localization="8" tooltip="Display Data" x="287" y="414"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onData" type="3" type_size="1" nature="2" inner="0" tooltip="" id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="Decos/mod6/pepper_say/done_2" type="0" type_size="1" nature="4" stm_value_name="Decos/mod6/pepper_say/done" inner="1" tooltip="Decos/mod6/pepper_say/done desc" id="4" /><Input name="Decos/mod6/pepper_hear/heard" type="0" type_size="1" nature="4" stm_value_name="Decos/mod6/pepper_hear/heard" inner="1" tooltip="Decos/mod6/pepper_hear/heard desc" id="5" /><Input name="Decos/mod6/pepper_hear/notunderstood" type="0" type_size="1" nature="4" stm_value_name="Decos/mod6/pepper_hear/notunderstood" inner="1" tooltip="Decos/mod6/pepper_hear/notunderstood desc" id="6" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="7" /><Output name="onReset" type="1" type_size="1" nature="1" inner="0" tooltip="" id="8" /><Parameter name="Images" inherits_from_parent="0" content_type="3" value="fa-wifi " default_value="" custom_choice="0" tooltip="" id="9" /><Parameter name="Text" inherits_from_parent="0" content_type="3" value="SSID: &lt;b&gt;Decos-Guest&lt;/b&gt; ; Password: &lt;b&gt;#Papierloos&lt;/b&gt;" default_value="" custom_choice="0" tooltip="" id="10" /><Parameter name="say" inherits_from_parent="0" content_type="3" value="Here is your wifi password!" default_value="" custom_choice="0" tooltip="Pepper say" id="11" /><Parameter name="this_id" inherits_from_parent="0" content_type="3" value="3" default_value="" custom_choice="0" tooltip="for comparison with the output of module 2" id="12" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="70.7107"><Box name="Show Web View" id="8" localization="8" tooltip="Shows the webview (html content) on the tablet.&#x0A;&#x0A;V1.0.0&#x0A;" x="471" y="58"><bitmap>media/images/box/internet/internet.png</bitmap><script language="4"><content><![CDATA[
+
+class MyClass(GeneratedClass):
+
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.logger.info('Loading mod6 data')
+        #
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            #self.logger.info("behavior path is : " + behavior)
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+            #self.logger.info(self.url)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(self.url+"/"+page+".html")
+        else:
+            self.logger.warning("ALTabletService not found.")
+
+    def onInput_onStart(self):
+        self.showWebPage("common/modules/Display_Data/display_data")
+        self.logger.info('Showing mod6 data')]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /></Box><Box name="Data to Mem" id="2" localization="8" tooltip="" x="260" y="33"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import json
+import random
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onData(self, p):
+        mod_data= json.loads(p)
+
+        memProxy = ALProxy("ALMemory")
+
+        try:
+            visitor= json.loads(memProxy.getData("Decos/all/visitor"))
+            visitor_name= visitor['name']
+        except:
+            visitor_name = ""
+
+        try:
+            employee= json.loads(memProxy.getData("Decos/all/employee"))
+            employee_name= employee['name']
+        except:
+            employee_name = ""
+
+        try:
+            ticketid= memProxy.getData("Decos/VREG_CheckIn/ticketid")
+        except:
+            ticketid = ""
+
+        pepper_say_array= mod_data["pepper_say"]
+        pepper_say = str(random.choice(pepper_say_array)).replace('{pause}',' \pau=1000\ ').replace('{visitor}', str(visitor_name) ).replace('{employee}', str(employee_name)).replace('{ticketid}', str(ticketid) )
+
+        self.logger.info("Pepper will say on Display_Data:"+str(pepper_say))
+        memProxy.insertData("Decos/mod6/pepper_say",  str(pepper_say) )
+
+        if "pepper_hear" in mod_data:
+            pepper_hear = json.dumps(mod_data["pepper_hear"])
+        else:
+            pepper_hear = "none"
+
+        memProxy.insertData("Decos/mod6/pepper_hear", pepper_hear )
+
+        if "pepper_wait" in mod_data:
+            pepper_wait = mod_data["pepper_wait"]
+        else:
+            pepper_wait = -1
+
+        memProxy.insertData("Decos/mod6/pepper_wait", pepper_wait)
+        #self.logger.info("Menu title is:"+str(mod_data["pepper_display"]["menu_title"]) )
+        memProxy.insertData("Decos/mod6/text", str(mod_data["pepper_display"]).replace('{visitor}', str(visitor_name) ).replace('{employee}', str(employee_name) ).replace('{ticketid}', str(ticketid) ))
+        if "pepper_fontawesome" in mod_data:
+            memProxy.insertData("Decos/mod6/images", str(mod_data["pepper_fontawesome"]) )
+        else:
+            memProxy.insertData("Decos/mod6/images", ' ' )
+
+        memProxy.insertData("Decos/mod6/next", str(mod_data["on_end"]) )
+
+        if "pepper_show_button" in mod_data:
+            pepper_show_button = str(mod_data["pepper_show_button"])
+        else:
+            pepper_show_button = "none"
+
+        memProxy.insertData("Decos/mod6/pepper_show_button", pepper_show_button )
+
+        if "pepper_fullscreen" in mod_data:
+            pepper_fullscreen = str(mod_data["pepper_fullscreen"])
+        else:
+            pepper_fullscreen = "none"
+
+        memProxy.insertData("Decos/mod6/pepper_fullscreen", pepper_fullscreen )
+
+        self.onLoaded()
+
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onLoaded() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onData" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onLoaded" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Detect Done" id="1" localization="8" tooltip="" x="488" y="293"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import time
+import json
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.memory = ALProxy("ALMemory")
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def next(self):
+
+        self.onStopped()
+
+    def onInput_pepperSpoke(self):
+        pepper_hear= self.memory.getData("Decos/mod6/pepper_hear")
+        pepper_wait= self.memory.getData("Decos/mod6/pepper_wait")
+
+        if pepper_hear ==  "none":
+            if pepper_wait == -1:
+                wait_time = 0
+            else:
+                self.onWaiting()
+                wait_time = pepper_wait
+
+            time.sleep(wait_time)
+            self.next()
+
+    def onInput_userSaid(self):
+        self.next()
+
+    def onInput_notUnderstood(self):
+        try:
+            pepper_hear= json.loads( self.memory.getData("Decos/mod6/pepper_hear") )
+            self.logger.info(str(pepper_hear[0]))
+            if pepper_hear[0] == "*":
+                self.next()
+        except:
+            self.logger.info("ERROR!!! Could not load data from decos/mod6/pepper_hear or another error happened")]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="pepperSpoke" type="1" type_size="1" nature="1" inner="0" tooltip="" id="2" /><Input name="userSaid" type="1" type_size="1" nature="1" inner="0" tooltip="" id="3" /><Input name="notUnderstood" type="1" type_size="1" nature="1" inner="0" tooltip="" id="4" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="5" /><Output name="onWaiting" type="1" type_size="1" nature="2" inner="0" tooltip="" id="6" /></Box><Box name="dialog m6" id="4" localization="8" tooltip="" x="470" y="161"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import os
+import tempfile
+import shutil
+import json
+import datetime
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.dialog = ALProxy("ALDialog")
+        self.memory = ALProxy("ALMemory")
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        # Deactivate topic
+        self.dialog.deactivateTopic(self.topic)
+
+        # Unload topic
+        self.dialog.unloadTopic(self.topic)
+
+        # Stop dialog
+        self.dialog.unsubscribe(self.getName())
+
+        shutil.rmtree(self.directory)
+
+    def onInput_onStart(self):
+        #self.logger.info("Starting custom dialog for module 2")
+        self.memory = ALProxy("ALMemory")
+
+        self.generateTopicFile()
+        #self.onStopped() #activate the output of the box
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box
+
+    def jsonToList(self,json_array):
+        res = []
+        for element in json_array:
+            res.append( str(element) )
+        return res
+
+    def generateTopicFile(self):
+        self.client_language = "dun"
+
+        self.directory = tempfile.mkdtemp()
+        try:
+            os.stat(self.directory)
+        except:
+            os.mkdir(self.directory)
+
+        #
+        self.topicname = "Display_Data_"+self.client_language+".top"
+        topicPath = os.path.join(self.directory, self.topicname)
+
+        memory = ALProxy("ALMemory")
+        #memory.getData("Decos/mod6/pepper_say")
+        self.pepper_say = self.replaceGlobalVars( memory.getData("Decos/mod6/pepper_say") )
+        self.logger.info("PEPPER WILL SAY"+self.pepper_say)
+        self.dialog.setConcept("pepper_say6" , self.client_language, [self.pepper_say] )
+
+        dialog = self.generateTopicContent()
+        with open(topicPath, 'w') as topic:
+            topic.write(dialog)
+
+        self.topic = self.dialog.loadTopic(topicPath.encode('utf-8'))
+
+        try:
+            pepper_hear= json.loads(memory.getData("Decos/mod6/pepper_hear"))
+            self.dialog.setConcept("pepper_hear6" , self.client_language, self.jsonToList(pepper_hear)  )
+        except:
+            self.dialog.setConcept("pepper_hear6" , self.client_language, []  )
+
+        self.dialog.subscribe(self.getName())
+        self.dialog.activateTopic(self.topic)
+        #except:
+        #    self.logger.info("No pepper_hear field in Module data JSON. Ignoring")
+
+    def replaceGlobalVars(self,string):
+        hour = int(datetime.datetime.now().hour)
+        day_part = "none"
+        #.replace('{employee}', str(employee_name) )
+        if "{part-of-the-day}" in string:
+            if(hour < 12 ):
+                day_part = "morning"
+            if hour >= 12 and hour < 18:
+                day_part = "afternoon"
+            if(hour >= 18 ):
+                day_part = "evening"
+
+            string = string.replace("{part-of-the-day}", self.memory.getData("Decos/translate/time/"+day_part))
+
+        return string
+
+    def generateTopicContent(self):
+        dialog = """topic: ~Display_Data() \nlanguage: """+self.client_language+"""\n
+dynamic:pepper_say6\n
+dynamic:pepper_hear6\n
+
+u:(~pepper_hear6) $Decos/mod6/pepper_hear/heard=1 \n
+u:(in:onActivation)  """+str( self.pepper_say )+""" $Decos/mod6/pepper_say/done=1 \n
+#u:(in:onActivation) "^mode(disabled) \pau=1000 \ " ^rand[~pepper_say6] $Decos/mod6/pepper_say/done=1 \n
+u:(e:Dialog/NotUnderstood) $Decos/mod6/pepper_hear/notunderstood=1"""
+        return dialog]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Inform Done" id="3" localization="8" tooltip="" x="359" y="239"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.memory= ALProxy("ALMemory")
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onStart(self):
+        self.memory.raiseEvent("Decos/CurrentModule/finished", str( self.memory.getData("Decos/mod6/next" ) ) )
+        self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="1" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="2" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Thank you, Your welcome" id="5" localization="8" tooltip="" x="668" y="417"><dialogFile>../thanks-welcome/thanks-welcome.dlg</dialogFile><bitmap>media/images/box/box-dialog.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Link inputowner="2" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="8" indexofinput="2" outputowner="2" indexofoutput="4" /><Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="4" /><Link inputowner="1" indexofinput="3" outputowner="0" indexofoutput="5" /><Link inputowner="4" indexofinput="2" outputowner="2" indexofoutput="4" /><Link inputowner="1" indexofinput="4" outputowner="0" indexofoutput="6" /><Link inputowner="3" indexofinput="2" outputowner="1" indexofoutput="5" /><Link inputowner="0" indexofinput="7" outputowner="3" indexofoutput="4" /><Link inputowner="5" indexofinput="2" outputowner="1" indexofoutput="6" /><Link inputowner="5" indexofinput="3" outputowner="1" indexofoutput="5" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box><Box name="Basic Stimuli" id="13" localization="8" tooltip="This box is an interface to the module ALBasicAwareness.&#x0A;&#x0A;It is a simple way to make the robot establish and keep eye contact with people.&#x0A;&#x0A;V1.1.0" x="620" y="292"><bitmap>media/images/box/tracker/basicawareness.png</bitmap><script language="4"><content><![CDATA[import threading
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        try:
+            self.awareness = ALProxy('ALBasicAwareness')
+        except Exception as e:
+            self.awareness = None
+            self.logger.error(e)
+
+        self.memory = ALProxy('ALMemory')
+
+        self.isRunning = False
+        self.trackedHuman = -1
+
+    def onUnload(self):
+        self.isRunning = False
+
+
+    def onInput_onStart(self):
+        if self.isRunning:
+            return # already running, nothing to do
+        self.isRunning = True
+        self.trackedHuman = -1
+        if self.awareness:
+            self.awareness.setEngagementMode(self.getParameter('Engagement Mode'))
+            self.awareness.setTrackingMode(self.getParameter('Tracking Mode'))
+            self.awareness.setStimulusDetectionEnabled('NavigationMotion', True)
+            self.awareness.setStimulusDetectionEnabled('Sound', self.getParameter('Sound Stimulus'))
+            self.awareness.setStimulusDetectionEnabled('Movement', self.getParameter('Movement Stimulus'))
+            self.awareness.setStimulusDetectionEnabled('People', self.getParameter('People Stimulus'))
+            self.awareness.setStimulusDetectionEnabled('Touch', self.getParameter('Touch Stimulus'))
+
+            self.awareness.startAwareness()
+
+
+
+    def onInput_onStop(self):
+        if not self.isRunning:
+            return # already stopped, nothing to do
+
+        self.onUnload()
+        self.onStopped()]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Starts the Basic Awareness with the given Engagement and Tracking mode parameters, using the given stimuli." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Stops the Basic Awareness." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Parameter name="Engagement Mode" inherits_from_parent="0" content_type="3" value="FullyEngaged" default_value="Unengaged" custom_choice="0" tooltip='The engagement mode specifies how &quot;focused&quot; the robot is on the engaged person.' id="5"><Choice value="Unengaged" /><Choice value="FullyEngaged" /><Choice value="SemiEngaged" /></Parameter><Parameter name="Tracking Mode" inherits_from_parent="0" content_type="3" value="Head" default_value="Head" custom_choice="0" tooltip="The tracking mode describes how the robot keeps eye contact with an engaged person." id="6"><Choice value="Head" /><Choice value="BodyRotation" /><Choice value="WholeBody" /></Parameter><Parameter name="Sound Stimulus" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="7" /><Parameter name="Movement Stimulus" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="8" /><Parameter name="People Stimulus" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="9" /><Parameter name="Touch Stimulus" inherits_from_parent="0" content_type="0" value="0" default_value="1" tooltip="" id="10" /></Box><Box name="First_HR_Int" id="6" localization="8" tooltip="" x="288" y="171"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onData" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Input name="Decos/mod1/Tablet/next" type="0" type_size="1" nature="4" stm_value_name="Decos/mod1/Tablet/next" inner="1" tooltip="Decos/mod1/Tablet/next desc" id="4" /><Input name="Decos/First_HR_Int/notunderstood" type="0" type_size="1" nature="4" stm_value_name="Decos/First_HR_Int/notunderstood" inner="1" tooltip="Decos/First_HR_Int/notunderstood desc" id="5" /><Input name="Decos/First_HR_Int/pepper_heard" type="0" type_size="1" nature="4" stm_value_name="Decos/First_HR_Int/pepper_heard" inner="1" tooltip="Decos/First_HR_Int/pepper_heard desc" id="6" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="7" /><Parameter name="Client Name" inherits_from_parent="0" content_type="3" value="daycos" default_value="" custom_choice="0" tooltip="" id="8" /><Parameter name="Robot First" inherits_from_parent="0" content_type="0" value="0" default_value="1" tooltip="" id="9" /><Parameter name="banner" inherits_from_parent="0" content_type="3" value="decoslogo.png" default_value="" custom_choice="0" tooltip="" id="10" /><Parameter name="welcome text show" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="11" /><Parameter name="welcome text" inherits_from_parent="0" content_type="3" value="Zeg &lt;i&gt;&lt;b&gt;hallo&lt;/b&gt;&lt;/i&gt; of &lt;b&gt;raak mijn scherm aan&lt;/b&gt;" default_value="" custom_choice="0" tooltip="" id="12" /><Parameter name="welcome text size" inherits_from_parent="0" content_type="1" value="108" default_value="80" min="0" max="120" tooltip="" id="13" /><Timeline enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram scale="59.4604"><Box name="Show Web View" id="8" localization="8" tooltip="Shows the webview (html content) on the tablet.&#x0A;&#x0A;V1.0.0&#x0A;" x="380" y="166"><bitmap>media/images/box/internet/internet.png</bitmap><script language="4"><content><![CDATA[
+class MyClass(GeneratedClass):
+
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        pass
+
+    def _getTabletService(self):
+        tabletService = None
+        try:
+            tabletService = self.session().service("ALTabletService")
+            behavior=self.behaviorAbsolutePath().split("/")[-2]
+            #self.logger.info("behavior path is : " + behavior)
+            self.url="http://198.18.0.1/apps/" + str(behavior)
+            #self.logger.info(self.url)
+        except Exception as e:
+            self.logger.error(e)
+        return tabletService
+
+    def showWebPage(self,page):
+        tabletService = self._getTabletService()
+        if tabletService:
+            tabletService.showWebview(self.url+"/"+page+".html")
+        else:
+            self.logger.warning("ALTabletService not found.")
+
+    def onInput_onStart(self):
+        self.showWebPage("common/modules/First_HR_Int/welcome")
+        memProxy = ALProxy("ALMemory")
+        memProxy.raiseEvent("Decos/mod1/robot_first", self.getParameter("Robot First") )]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="3" /><Parameter name="banner" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="banner url" id="4" /><Parameter name="welcome text" inherits_from_parent="1" content_type="3" value="" default_value="" custom_choice="0" tooltip="" id="5" /><Parameter name="welcome text size" inherits_from_parent="1" content_type="1" value="80" default_value="80" min="0" max="120" tooltip="" id="6" /><Parameter name="welcome text show" inherits_from_parent="1" content_type="0" value="1" default_value="1" tooltip="" id="7" /></Box><Box name="Run Behavior" id="6" localization="0" tooltip="Manage a behavior.&#x0A;&#x0A;Will start the behavior given as input when onStart is stimulated.&#x0A;&#x0A;Will stop it when onStop is stimulated.&#x0A;&#x0A;Will exit on onStopped when no error happened during behavior startup or stopping.&#x0A;&#x0A;Will exit on onError if an error happened, transmitting a string describing the error.&#x0A;&#x0A;Most notably (but not exclusively), the box will fail if you try to start a behavior not present on the robot, or if you try to start a behavior that&apos;s already started.&#x0A;" x="624" y="587"><bitmap>media/images/box/box-diagram.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        self.behaviorName = str()
+        self.bm = ALProxy("ALBehaviorManager")
+
+    def onUnload(self):
+        if len(self.behaviorName) > 0:
+            self.bm.stopBehavior(self.behaviorName)
+
+    def onInput_onStart(self, p):
+        if len(self.behaviorName) > 0 and self.behaviorName != p:
+            raise RuntimeError("this box is already running another behavior")
+
+        try:
+            self.behaviorName = p
+            self.bm.runBehavior(self.behaviorName)
+        finally:
+            self.behaviorName = str()
+            self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload()]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="" id="5" /></Box><Box name="Text Edit" id="7" localization="8" tooltip="Send the text you entered when the input is stimulated." plugin="textedit_plugin" x="322" y="588"><bitmap>media/images/box/interaction/vocabulary.png</bitmap><script language="4"><content><![CDATA[# /!\ Generated content. Do not edit!
+class MyClass(GeneratedClass):
+	def __init__(self):
+		GeneratedClass.__init__(self)
+
+	def onInput_onStart(self):
+		self.onStopped("boot-config/animations/poseInitUp")]]></content></script><pluginContent><text><![CDATA[boot-config/animations/poseInitUp]]></text></pluginContent><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when Diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="1" inner="0" tooltip="To send the text on the output." id="2" /><Output name="onStopped" type="3" type_size="1" nature="2" inner="0" tooltip="The text you entered." id="3" /></Box><Box name="Data to Mem" id="10" localization="8" tooltip="" x="154" y="43"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import json
+import random
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+
+    def onLoad(self):
+        #put initialization code here
+        pass
+
+    def onUnload(self):
+        #put clean-up code here
+        pass
+
+    def onInput_onData(self, p):
+        mod_data= json.loads(p)
+
+        memProxy = ALProxy("ALMemory")
+
+        memProxy.insertData("Decos/client/welcome_text", str( mod_data["pepper_display"] ) )
+
+        pepper_say_array= mod_data["pepper_say"]
+        pepper_say = str(random.choice(pepper_say_array))
+        self.logger.info("Pepper will say on interaction:"+str(pepper_say))
+
+        memProxy.insertData("Decos/mod1/pepper_say",  str(pepper_say) )
+        memProxy.insertData("Decos/mod1/pepper_hear", json.dumps(mod_data["pepper_hear"]) )
+
+        memProxy.insertData("Decos/First_HR_Int/nextstate", str(mod_data["on_end"]) )
+
+        if 'pepper_chitchat' in mod_data:
+            memProxy.insertData("Decos/mod1/pepper_chitchat",  str( mod_data['pepper_chitchat'] ) )
+        else:
+            memProxy.insertData("Decos/mod1/pepper_chitchat",  "none" )
+
+        self.onLoaded()
+
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onLoaded() #activate the output of the box]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onData" type="3" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onLoaded" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished." id="4" /></Box><Box name="Dialog" id="23" localization="8" tooltip="" x="479" y="71"><bitmap>media/images/box/box-python-script.png</bitmap><script language="4"><content><![CDATA[import os
+import tempfile
+import shutil
+import json
+import datetime
+
+class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        self.dialog = ALProxy("ALDialog")
+        self.memory = ALProxy("ALMemory")
+
+    def onLoad(self):
+        pass
+
+    def onUnload(self):
+        # Deactivate topic
+        self.dialog.deactivateTopic(self.topic)
+
+        # Unload topic
+        self.dialog.unloadTopic(self.topic)
+
+        # Stop dialog
+        self.dialog.unsubscribe(self.getName())
+
+        shutil.rmtree(self.directory)
+
+    def onInput_onStart(self):
+        #self.logger.info("Starting custom dialog for module 2")
+        self.memory = ALProxy("ALMemory")
+
+        self.generateTopicFile()
+        #self.onStopped() #activate the output of the box
+        pass
+
+    def onInput_onStop(self):
+        self.onUnload() #it is recommended to reuse the clean-up as the box is stopped
+        self.onStopped() #activate the output of the box
+
+    def jsonToList(self,json_array):
+        res = []
+        for element in json_array:
+            res.append( str(element) )
+        return res
+
+    def replaceGlobalVars(self,string):
+        hour = int(datetime.datetime.now().hour)
+        day_part = "none"
+        #.replace('{employee}', str(employee_name) )
+        if "{part-of-the-day}" in string:
+            if(hour < 12 ):
+                day_part = "morning"
+            if hour >= 12 and hour < 18:
+                day_part = "afternoon"
+            if(hour >= 18 ):
+                day_part = "evening"
+
+            string = string.replace("{part-of-the-day}", self.memory.getData("Decos/translate/time/"+day_part))
+
+        return string
+
+    def generateTopicFile(self):
+        memory = ALProxy("ALMemory")
+
+        self.client_language = "dun"
+        self.logger.info("First HR Int language is "+self.client_language)
+
+        self.directory = tempfile.mkdtemp()
+        try:
+            os.stat(self.directory)
+        except:
+            os.mkdir(self.directory)
+
+        #
+        self.topicname = "First_HR_Int_"+self.client_language+".top"
+        topicPath = os.path.join(self.directory, self.topicname)
+
+        chitchat = memory.getData("Decos/mod1/pepper_chitchat")
+        if chitchat != "none":
+            #check here if file exists!
+            chitchatPath = os.path.join( ALFrameManager.getBehaviorPath(self.behaviorId) , "../chitchat/"+chitchat+"_"+self.client_language+".top")
+
+            #self.logger.info(chitchatPath)
+
+            self.chitchat = str("include: "+chitchatPath+"\n")
+            self.logger.info("Adding chitchat "+self.chitchat)
+        else:
+            self.chitchat = ""
+
+        self.pepper_say= self.replaceGlobalVars( memory.getData("Decos/mod1/pepper_say") )
+
+        dialog = self.generateTopicContent()
+        with open(topicPath, 'w') as topic:
+            topic.write(dialog)
+
+        self.topic = self.dialog.loadTopic(topicPath.encode('utf-8'))
+
+        pepper_hear= json.loads(memory.getData("Decos/mod1/pepper_hear"))
+
+        self.dialog.setConcept("pepper_say" , self.client_language, [self.pepper_say] )
+        self.dialog.setConcept("pepper_hear" , self.client_language, self.jsonToList(pepper_hear) )
+
+        self.dialog.subscribe(self.getName())
+        self.dialog.activateTopic(self.topic)
+
+    def generateTopicContent(self):
+        dialog = """topic: ~First_HR_Int() \n
+language: """+self.client_language+"""\n
+"""+self.chitchat+"""
+dynamic:pepper_say\n
+dynamic:pepper_hear\n
+u:(e:Decos/mod1/Tablet/touchButton)"""+str( self.pepper_say )+""" $Decos/CurrentModule/finished=$Decos/First_HR_Int/nextstate $Decos/mod1/Tablet/next=1 \n
+u:( _~pepper_hear ) $Decos/First_HR_Int/pepper_heard=$1  $Decos/mod1/Tablet/touchButton = 1 \n
+u:(e:Dialog/NotUnderstood) $Decos/First_HR_Int/notunderstood=1  \n"""
+        return dialog]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Box behavior starts when a signal is received on this input." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="" id="4" /></Box><Box name="Help Hand" id="3" localization="8" tooltip="Stores in NAOqi&apos;s shared memory the given value at the given key, and spreads the event to all its subscribers." x="563" y="416"><bitmap>media/images/box/sensors/STM.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+
+    def onUnload(self):
+        self.memory = None
+
+    def onInput_onStart(self, p):
+        self.memory.raiseEvent(self.getParameter("key"), p)
+        self.onStopped(p)
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="0" type_size="1" nature="2" inner="0" tooltip="Receives the value to be inserted as an event in ALMemory." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="0" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished. It contains the inserted value in ALMemory." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="Output when error is raised by the behavior. Contains the error message." id="5" /><Parameter name="key" inherits_from_parent="0" content_type="3" value="Decos/First_HR_Int/help_hand/start" default_value="MyApplication/MyData" custom_choice="0" tooltip="" id="6" /></Box><Box name="SwitchBasicAwareness" id="14" localization="8" tooltip="Stores in NAOqi&apos;s shared memory the given value at the given key, and spreads the event to all its subscribers." x="181" y="202"><bitmap>media/images/box/sensors/STM.png</bitmap><script language="4"><content><![CDATA[class MyClass(GeneratedClass):
+    def __init__(self):
+        GeneratedClass.__init__(self)
+        pass
+
+    def onLoad(self):
+        self.memory = ALProxy("ALMemory")
+
+    def onUnload(self):
+        self.memory = None
+
+    def onInput_onStart(self):
+        newState = self.getParameter("Run")
+        if (newState):
+            newState = "Run"
+        else:
+            newState = "Resume"
+        self.memory.raiseEvent(self.getParameter("Key"), "Run")
+        self.onStopped()
+
+    def onInput_onStop(self):
+        self.onUnload() #~ it is recommended to call onUnload of this box in a onStop method, as the code written in onUnload is used to stop the box as well
+        pass]]></content></script><Input name="onLoad" type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2" inner="0" tooltip="Receives the value to be inserted as an event in ALMemory." id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0" tooltip="Box behavior stops when a signal is received on this input." id="3" /><Output name="onStopped" type="1" type_size="1" nature="1" inner="0" tooltip="Signal sent when box behavior is finished. It contains the inserted value in ALMemory." id="4" /><Output name="onError" type="3" type_size="1" nature="1" inner="0" tooltip="Output when error is raised by the behavior. Contains the error message." id="5" /><Parameter name="Key" inherits_from_parent="0" content_type="3" value="Decos/BasicAwareness" default_value="" custom_choice="0" tooltip="" id="6" /><Parameter name="Run" inherits_from_parent="0" content_type="0" value="1" default_value="1" tooltip="" id="7" /></Box><Link inputowner="6" indexofinput="2" outputowner="7" indexofoutput="3" /><Link inputowner="10" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="8" indexofinput="2" outputowner="10" indexofoutput="4" /><Link inputowner="23" indexofinput="2" outputowner="10" indexofoutput="4" /><Link inputowner="0" indexofinput="7" outputowner="0" indexofoutput="4" /><Link inputowner="7" indexofinput="2" outputowner="10" indexofoutput="4" /><Link inputowner="3" indexofinput="2" outputowner="0" indexofoutput="5" /><Link inputowner="14" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="8" indexofinput="2" outputowner="8" indexofoutput="3" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box><Link inputowner="5" indexofinput="3" outputowner="0" indexofoutput="17" /><Link inputowner="11" indexofinput="3" outputowner="0" indexofoutput="17" /><Link inputowner="11" indexofinput="2" outputowner="0" indexofoutput="9" /><Link inputowner="5" indexofinput="2" outputowner="0" indexofoutput="8" /><Link inputowner="2" indexofinput="3" outputowner="0" indexofoutput="6" /><Link inputowner="1" indexofinput="4" outputowner="0" indexofoutput="17" /><Link inputowner="13" indexofinput="2" outputowner="1" indexofoutput="5" /><Link inputowner="6" indexofinput="2" outputowner="0" indexofoutput="7" /><Link inputowner="6" indexofinput="3" outputowner="0" indexofoutput="17" /><Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="2" indexofinput="2" outputowner="1" indexofoutput="5" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box></ChoregrapheProject>

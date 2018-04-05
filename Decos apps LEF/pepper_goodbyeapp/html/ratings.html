@@ -1,0 +1,45 @@
+<html>
+  <script src="common/scripts/qimessaging.js"></script>
+  <script src="common/scripts/naoqi.js"></script>
+  <script src="common/includes/jquery.js"></script>
+
+  <body>
+    <button id="remove_ratings" style="color:red">Delete all ratings</button>
+    <table id="rating_table" style="text-align:center;" border="1" align="center">
+      <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Rating</th>
+      </tr>
+    </table>
+  </body>
+
+
+  <script>
+    var naoqi = NaoQiSession('pepper.local');
+    //var naoqi = NaoQiSession('198.18.0.1');//'192.168.3.156');//
+    var session= naoqi.session;
+
+    console.log("Start");
+    $.when( session.service("DecosRatingService") ).then(function(decos_rating){
+        console.log("DecosRatingService!");
+
+        $.when(decos_rating.get_ratings()).then(function(rating_data){
+          rating_data = rating_data.split('\n')
+
+          for(var i = rating_data.length - 2 ; i >= 0 ; i--){
+            var rating = rating_data[i].split(' ')
+            $('#rating_table').append("<tr><td>"+rating[0]+"</td><td>"+rating[1]+"</td><td>"+rating[2]+"</td></tr>")
+          }
+        });
+
+        $('#remove_ratings').bind( "click",function(){
+          console.log("clicked button to erase ratings file")
+          $.when(decos_rating.remove_ratings()).then(function(){
+            console.log("Sent instruction to erase ratings file.")
+          })
+        }.bind(this))
+
+    });
+  </script>
+</html>

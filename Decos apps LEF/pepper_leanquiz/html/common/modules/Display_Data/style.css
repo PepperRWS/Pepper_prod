@@ -1,0 +1,25 @@
+@import url('../common.css');
+
+#logo{
+  max-height: 50%;
+}
+
+#images{
+  font-size: 30vw;
+  margin: 2%;
+}
+
+#text{
+  text-align: center;
+  font-size:6vw;
+  font-family: decosFont;
+  width: 90%;
+}
+
+.fa-times {
+  color: red;
+}
+
+.fa-check {
+  color: green;
+}

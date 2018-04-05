@@ -1,0 +1,94 @@
+topic: ~chitchat_decos()
+language: dun
+include: common_chitchat_dun.top
+
+#
+# About the robot and his job at this office
+#
+
+u:(["{Pepper} kun je iets over jezelf vertellen {Pepper}"
+    "{Pepper} wat doe je hier {Pepper}"
+    "{Pepper} vertel iets over jezelf {Pepper}"
+    "{Pepper} kun je je voorstellen {Pepper}"])
+  [ "Ik ben Pep-per en ben hier om bezoekers te helpen."
+    "Mijn naam is Pep-per. Ik ben verre familie van sie frie pie oo."
+    "Ik ben Pep-per en ik ben dol op mensen. Ik verwelkom gasten bij Daycos."
+  ]
+
+u:(hoe lang werk je hier al)
+  ^rand[ "Ik ben sinds medio 2016 bij Daycos aan de slag"
+    "Ik moet zeggen: het voelt niet echt als werk hier"
+  ]
+
+u:(["vindt je het leuk hier"])
+  ^rand[ "het is super hier"
+    "ja ik heb leuke collega's"
+    "ja, alle bezoekers en collega's zijn super vriendelijk"
+  ]
+
+#
+# Where things are in this building
+#
+
+u:(["Waar is het toilet"
+  "Waar is de wc"
+  "Ik wil naar de wc"
+  "Ik wil naar het toilet"
+  "Mag ik naar het toilet"
+  "Mag ik gebruik maken van het toilet"
+  "Mag ik gebruik maken van de wc"
+  "Waar is de plee"
+  "Mag ik naar de wc"])
+ ^rand[ "Het toilet is direct achter de schermen: links voor dames en rechts voor heren"
+   "U vindt het toilet als u binnenkomt rechts achter de schermen"
+   "U loopt naar binnen, daar ziet u 3 schermen boven elkaar hangen. Daarachter is het toilet"
+ ]
+
+u:(["Waar is de koffieautomaat"
+  "Mag ik een kopje koffie"
+  "Mag ik een kopje thee"
+  "Mag ik iets te drinken"
+  "Breng je ook koffie"
+  "Ik heb zin in koffie"
+  "Heb je ook koffie"
+  "Heb je koffie"
+  "Heb je ook thee"
+  "Breng je ook thee"
+  "Ik heb zin in thee"
+  "Krijg ik iets te drinken"
+  "Ik wil iets drinken"
+  "Ik wil koffie"
+  "Ik wil thee"])
+ ^rand[ "Als u mijn collega vertelt wat u wil drinken krijgt u dat zeau snel mogelijk"
+   "Mijn collega helpt u graag"
+ ]
+
+#
+# Star wars
+#
+
+u:(["hou je van star trek"])
+  ^rand[ "ik ben meer een star wars fan"
+    "biem mie up skottie"
+  ]
+
+u:(["hou je van star wars"
+   "ken je star wars"])
+  ^rand[ "absoluut wat denk je! star wars is onwijs gaaf"
+    "ja, sie frie pie o is verre familie"
+    "natuurlijk, mee de fors bie wiv joe"
+    "jazeker, ik spreek regelmatig met sie frie pie o"
+  ]
+
+#r2d2
+u:(["ken je ar toe die toe"])
+  ^rand[ "ja, dat is nogal een eigenwijze robot"
+    "daar heb ik flink wat avonturen mee beleeft"
+  ]
+
+#kan je de poortjes opendoen
+#praat je ook fries?
+#waar ben je geboren
+#waar is joost
+#wie is joost
+#kun je ook beat-boxen

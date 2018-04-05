@@ -1,0 +1,220 @@
+{
+  "client_name" : "Rijkswaterstaat",
+  "client_say_name" : "Rijkswaterstaat",
+  "client_logo" : "logo-RWS.jpg",
+  "start_state" : "MainMenu",
+  "StateMachine" : [
+    {
+      "state_name": "Welcome",
+      "state_type": "First_HR_Int",
+      "state_data": {
+        "pepper_move": "no",
+        "pepper_first": "no",
+        "pepper_say": ["Welkom bij LEF",
+                       "Goeden dag! \\pau=250\\ Welkom bij LEF",
+                       "Goeden dag!", "Fijn dat je er bent"],
+        "pepper_hear": ["Hallo", "Hoi", "Hi","Hallo"],
+        "pepper_display": "Zeg \"Hallo\" ",
+        "on_end":"MainMenu"
+      }
+    },
+    {
+      "state_name": "MainMenu",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["Welkom bij LEF!"],
+        "pepper_not_understood": [""],
+        "pepper_display": {
+          "menu_title": "Vertel me waarvoor je komt:",
+          "menu_options":[
+            {
+              "option_text": "Afspraak",
+              "option_hear": ["Ik heb een afspraak","Ik kom hier voor een afspraak","afspraak",
+                              "Ik heb een meeting", "Ik kom hier voor een meeting", "meeting",
+                              "Ik heb een vergadering", "Ik kom hier voor een vergadering", "vergadering",
+                              "Ik heb een overleg", "Ik kom hier voor een overleg", "overleg"],
+              "on_tap": "Meeting"
+            },
+            {
+              "option_text": "Sessie",
+              "option_hear": ["Ik heb een sessie", "Ik kom voor een sessie", "Ik kom hier voor een sessie",
+                              "Voor een sessie", "een sessie", "sessie"],
+              "on_tap": "Session"
+            },
+            {
+              "option_text": "CLC",
+              "option_hear": ["Ik heb een CLC", "Ik kom voor CLC", "CLC",
+                              "Voor CLC"],
+              "on_tap": "CLC"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "state_name": "Meeting",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Oke, ga lekker zitten in de foyer. In de gele kombuis kun je wat te drinken halen."],
+        "pepper_fontawesome": "fa-clock-o",
+        "pepper_display": " ",
+        "pepper_wait": 2,
+        "on_end": "AnythingElse"
+      }
+    },
+    {
+      "state_name": "Session",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Leuk! Bij de balie kun je checken of je een badge nodig hebt. En kijk op de bewegwijzeringsborden waar je sessie start."],
+        "pepper_fontawesome": "fa-users",
+        "pepper_display": " ",
+        "pepper_wait": 2,
+        "on_end": "AnythingElse"
+      }
+    },
+    {
+      "state_name": "CLC",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["\\rspd=86\\Op A3 vind je de receptie van CLC.\\rspd=100\\ Dit is twee verdiepingen hierboven aan het einde van de gang."],
+        "pepper_fontawesome": "fa-users",
+        "pepper_display": "A3",
+        "pepper_wait": 2,
+        "on_end": "MainMenu"
+      }
+    },
+    {
+      "state_name": "AnythingElse",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["Kan ik je verder nog ergens mee helpen?"],
+        "pepper_not_understood": ["Help mij alsjeblieft door een keuze te maken op mijn scherm."],
+        "pepper_display": {
+          "menu_title": "Kan ik je verder nog ergens mee helpen?",
+          "menu_options":[
+            {
+              "option_text": "Wi-Fi",
+              "option_hear": ["Wifi", "Wi Fi", "Is er Wi Fi", "Wat is de Wi Fi code", "Mag ik de wifi code", "Mag ik de wi fi code?"],
+              "on_tap": "Wifi"
+            },
+            {
+              "option_text": "Toilet",
+              "option_hear": ["Toilet", "Waar is het toilet", "W C", "Waar is de W C", "Ik zoek het toilet",
+                "Ik ben op zoek naar het toilet", "Ik zoek de WC", "Ik ben op zoek naar de WC"],
+              "on_tap": "Toilet"
+            },
+            {
+              "option_text": "Garderobe",
+              "option_hear": [
+                "Garderobe", "Ik zoek de garderobe", "Waar is de garderobe?", "Ik zoek de kapstok",
+                "Kapstok", "Jas ophangen", "Ik zou graag mijn jas ophangen.", "Waar is de kapstok",
+                "Waar kan ik mijn jas ophangen", "Ik ben op zoek naar de garderobe", "Ik ben op zoek naar de kapstok"],
+              "on_tap": "Wardrobe"
+            },
+            {
+              "option_text": "Koffie",
+              "option_hear": ["Ik wil graag een koffie",
+                              "Ik kom voor de koffie",
+                              "Koffie", "Ik lust wel een koffie", "Ik lust wel een thee",
+                              "Ik zou graag een koffie willen drinken" , "Ik zou graag een koffie",
+                              "Thee", "Wat te drinken", "Iets te drinken", "Ik wil graag iets drinken",
+                              "Ik lust wel een kopje Thee", "Ik lust wel een kopje koffie", "Een kopje koffie graag", "Een kopje thee graag"],
+              "on_tap": "Coffee2"
+            },
+            {
+              "option_text": "Plattegrond",
+              "option_hear": ["Plattegrond", "Kaart", "waar ben ik"],
+              "on_tap": "ShowMap"
+            },
+            {
+              "option_text": "Nee, bedankt",
+              "option_hear": ["Nee", "Nee hoor", "Nee bedankt", "Nee dankje"],
+              "on_tap": "TwitterPost"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "state_name": "Wifi",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Je kunt gebruik maken van Gasten LEF. Hiervoor heb je geen inlog gegevens nodig."],
+        "pepper_fontawesome": "fa-wifi",
+        "pepper_display": "Gasten LEF",
+        "pepper_wait": 2,
+        "on_end": "TwitterPost"
+      }
+    },
+    {
+      "state_name": "Toilet",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Het toilet is verderop in deze gang aan de rechterkant."],
+        "pepper_fontawesome": "wc-sign.png",
+        "pepper_display": " ",
+        "pepper_wait": 2,
+        "on_end": "MainMenu"
+      }
+    },
+    {
+      "state_name": "Coffee2",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["In de gele kombuis kun je wat te drinken halen."],
+        "pepper_fontawesome": "fa-coffee",
+        "pepper_display": " ",
+        "pepper_wait": 2,
+        "on_end": "MainMenu"
+      }
+    },
+    {
+      "state_name": "Wardrobe",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["De garderobe vind je verderop in deze gang rechts."],
+        "pepper_fontawesome": "fa-umbrella",
+        "pepper_display": " ",
+        "pepper_wait": 2,
+        "on_end": "MainMenu"
+      }
+    },
+    {
+      "state_name": "ShowMap",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Dit is de plattegrond van LEF"],
+        "pepper_fontawesome": "map-LEF.png",
+        "pepper_fullscreen":"yes",
+        "pepper_display": " ",
+        "pepper_show_button": "Ok",
+        "pepper_wait": 30,
+        "on_end": "MainMenu"
+      }
+    },
+    {
+        "state_name": "TwitterPost",
+        "state_type": "Display_Data",
+        "state_data": {
+          "pepper_say": ["Wil je LEF toonen? Plaats dan je foto of bericht op twitter!" ],
+          "pepper_fontawesome": "twitter.jpg",
+          "pepper_display": "@LEFfuturecenter",
+          "pepper_wait": 0.5,
+          "on_end": "MainMenu"
+        }
+      },
+
+    {
+      "state_name": "EndConversation",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Okay, fijne dag"],
+        "pepper_fontawesome": "fa-thumbs-up ",
+        "pepper_display": " ",
+        "pepper_wait": 5,
+        "on_end": "MainMenu"
+      }
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "client_name" : "Rijkswaterstaat",
+  "client_say_name" : "Rijkswaterstaat",
+  "client_logo" : "logo-RWS.jpg",
+  "start_state" : "WouldYouRecommend",
+  "StateMachine" : [
+    {
+        "state_name": "WouldYouRecommend",
+        "state_type": "Rate_Interaction",
+        "state_data": {
+          "pepper_say": ["Wat vond je van de sessie?"],
+          "pepper_display": "Wat vond je van de sessie? <br> Klik op een ster",
+          "score_prefix": [],
+          "scores":[
+            {
+              "score_name":"een ster",
+              "score_display":"1",
+              "score_fontawesome":"fa-star",
+              "pepper_hear":["een ster"],
+              "pepper_say_reaction":[ "Ah, jammer. Bedankt voor je reactie"]
+            },
+            {
+              "score_name":"twee sterren",
+              "score_display":"2",
+              "score_fontawesome":"fa-star",
+              "pepper_hear":["twee sterren"],
+              "pepper_say_reaction":[ "Oke. Bedankt voor je reactie" ]
+            },
+            {
+              "score_name":"drie sterren",
+              "score_display":"3",
+              "score_fontawesome":"fa-star",
+              "pepper_hear":["drie sterren"],
+              "pepper_say_reaction":[ "Oke. Bedankt." ]
+            },
+			      {
+              "score_name":"vier sterren",
+              "score_display":"4",
+              "score_fontawesome":"fa-star",
+              "pepper_hear":["vier sterren" ],
+              "pepper_say_reaction":[ "Mooi. Bedankt!" ]
+            },
+			      {
+              "score_name":"vijf sterren",
+              "score_display":"5",
+              "score_fontawesome":"fa-star",
+              "pepper_hear":[ "vijf sterren" ],
+              "pepper_say_reaction":[ "Wow, dat is goed!" ]
+            }
+
+          ],
+          "on_good_score":["GoodbyeVisitor","TwitterPost"],
+          "on_bad_score":"FeedbackForm",
+          "on_end": "GoodbyeVisitor"
+        }
+      },
+      {
+        "state_name": "TwitterPost",
+        "state_type": "Display_Data",
+        "state_data": {
+          "pepper_say": ["Wil je LEF tonen? Plaats dan je foto of bericht op twitter!" ],
+          "pepper_fontawesome": "twitter.jpg",
+          "pepper_display": "@LEFfuturecenter",
+          "pepper_wait": 0.5,
+          "on_end": "WouldYouRecommend"
+        }
+      },
+      {
+        "state_name": "FeedbackForm",
+        "state_type": "Display_Data",
+        "state_data": {
+          "pepper_say": ["We horen graag wat beter kan. Wil je bij de receptie een feedback formulier invullen?" ],
+          "pepper_fontawesome": "fa-comments-o",
+          "pepper_display": "",
+          "pepper_wait": 0.5,
+          "on_end": "GoodbyeVisitor"
+        }
+      },
+      {
+        "state_name": "GoodbyeVisitor",
+        "state_type": "Display_Data",
+        "state_data": {
+          "pepper_say": ["^start(animations/left_wave) Leuk dat je er was! Prettige dag! ^wait(animations/left_wave)","Ik hoop dat je vandaag veel nieuwe dingen hebt geleerd. Ik wens je nog een prettige dag!", "^start(animations/left_wave) Ik hoop je gauw weer terug te zien bij LEF! ^wait(animations/left_wave)" ],
+          "pepper_fontawesome": "logo-lef.png",
+          "pepper_display": "",
+          "pepper_wait": 2,
+          "on_end": "WouldYouRecommend"
+        }
+      }
+  ]
+}

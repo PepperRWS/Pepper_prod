@@ -1,0 +1,8 @@
+{
+  "language" : "Dutch",
+  "time" : {
+    "morning": "Goede morgen",
+    "afternoon" : "Goedenmiddag",
+    "evening" : "Goedenavond"
+  }
+}

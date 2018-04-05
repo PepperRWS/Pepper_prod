@@ -1,0 +1,10 @@
+
+*.jpeg
+
+*.pyc
+
+.coverage
+
+*.txt
+
+*.explo

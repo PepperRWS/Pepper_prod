@@ -1,0 +1,72 @@
+<html>
+  <script src="../../scripts/qimessaging.js"></script>
+  <script src="../../scripts/naoqi.js"></script>
+  <script src="../../includes/jquery.js"></script>
+  <link rel="stylesheet" href="../../includes/font-awesome/css/font-awesome.min.css">
+
+  <link type="text/css" rel="stylesheet" href="../../includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="../../includes/materialize/js/materialize.min.js"></script>
+
+  <script src="../../scripts/newResetButton.js"></script>
+  <link rel="stylesheet" href="../../css/newResetButton.css">
+  <script type="text/javascript" src="../../scripts/buttonclick.js"></script>
+  <link rel="stylesheet" href="../../css/buttonclick.css">
+
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <div class="centered_main_wrapper">
+      <div id="title" class="title"></div>
+      <div class="ratings_wrapper" id="ratings_wrapper">
+      </div>
+    </div>
+  </body>
+
+  <script>
+    //var naoqi = NaoQiSession('pepper.local');
+    var naoqi = NaoQiSession('198.18.0.1');
+    var session= naoqi.session;
+
+    addresetButton(session,'top',200000);
+
+    $.when( session.service("ALMemory") ).then(function(mem){
+      console.log("ALMemory!")
+      $.when(mem.getData("Decos/Rate_Interaction/pepper_display"),mem.getData("Decos/Rate_Interaction/scores")).then(function(pepper_display,scores){
+        $('#title').html(pepper_display);
+
+        scores = JSON.parse(scores)
+        console.log(scores)
+        for(var sid in scores){
+          var score = scores[sid];
+          $("#ratings_wrapper").append('<div class="rating_wrapper" id="rating_wrapper_'+score.score_display.replace(" ","_")+'"><div class="fa '+score.score_fontawesome+' star star_'+score.score_name.replace(" ","_")+'"></div><div class="rating_text">'+score.score_display+'</div>');
+          $("#rating_wrapper_"+score.score_display.replace(" ","_")).on('touchstart',{name:score.score_name},function(e){
+            var scoreid= e.data.name;
+            console.log("clicked "+scoreid)
+            drawScore(scoreid.replace(" ","_"))
+            mem.raiseEvent("Decos/Rate_Interaction/scores/selected",scoreid)
+            ;
+          });
+        }
+
+        function drawScore(score){
+          for(var sid in scores){
+            //if here to check if user want to highlight scores
+            $(".star_"+scores[sid].score_name.replace(" ","_")).css("color","#FFD85E");
+
+            if(score== scores[sid].score_name.replace(" ","_"))
+              break;
+          }
+        }
+
+        //subscribe to voice rating here
+        //Decos/Rate_Interaction/scores/final
+        mem.subscriber("Decos/Rate_Interaction/scores/final").done(function (subscriber) {
+          subscriber.signal.connect(function (scoreid) {
+            drawScore(scoreid.replace(" ","_"))
+          });
+        });
+      });
+
+    });
+
+  </script>
+</html>

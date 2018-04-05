@@ -1,0 +1,163 @@
+<html>
+  <script src="../../scripts/qimessaging.js"></script>
+  <script src="../../scripts/naoqi.js"></script>
+  <script src="../../includes/jquery.js"></script>
+  <link rel="stylesheet" href="../../includes/font-awesome/css/font-awesome.min.css">
+
+  <link type="text/css" rel="stylesheet" href="../../includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="../../includes/materialize/js/materialize.min.js"></script>
+
+  <script type="text/javascript" src="../../scripts/buttonclick.js"></script>
+  <link rel="stylesheet" href="../../css/buttonclick.css">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script>
+  //var naoqi = NaoQiSession('pepperdecos2.local');
+  var naoqi = NaoQiSession('198.18.0.1');//'192.168.3.156');//
+  var session= naoqi.session;
+  var allVisible = false;
+  var availableLanguages = "none";
+  var currentLanguage = "";
+
+  console.log("Start");
+  $.when( session.service("ALMemory") ).then(function(mem){
+    //console.log("ALMemory!");
+    $.when(mem.getData("Decos/client/banner"),mem.getData("Decos/client/welcome_text")).then(function(banner,text){
+      $('#client_welcome_text').html(text);
+      $('#client_banner').attr("src","../../resources/"+banner);
+      //console.log(banner + "  " + text);
+    });
+
+    //$( "body" ).on("touchstart",function(){
+    //  mem.raiseEvent("Decos/mod1/Tablet/touchButton",1);
+    //});
+
+    mem.subscriber("Decos/First_HR_Int/help_hand/start").done(function (subscriber) {
+      subscriber.signal.connect(function (event) {
+        animation_time= 2;
+
+        $('.help-hand').css("display",'block');
+
+        setTimeout(function(){
+          $('.help-hand').css("display",'none');
+        },animation_time*1000);
+
+      });
+    });
+  });
+
+
+  setLanguageFlags();
+
+  function switchLanguage(newlanguage) {
+      $.when( session.service("ALMemory") ).then(function(mem){
+        console.log("switchLanguage to " + newlanguage);
+        currentLanguage = newlanguage;
+        mem.raiseEvent("Decos/SwitchLanguageTo",newlanguage);
+      });
+  };
+
+  function greetVisitor() {
+      $.when( session.service("ALMemory") ).then(function(mem){
+        console.log("continue  ");
+        mem.raiseEvent("Decos/mod1/Tablet/touchButton",1);
+      });
+  }
+
+  function setLanguageFlags() {
+    $.when( session.service("ALMemory") ).then(function(mem){
+      console.log("ALMemory!");
+      $.when(mem.getData("Decos/CanSwitchlanguage"),
+             mem.getData("Decos/LanguagesAvailable"),
+             mem.getData("Decos/client/language")).then(
+       function(canSwitch, LanguageList, CurrentLanguage){
+          console.log("setLanguageFlags " + canSwitch + ";" + LanguageList + ";" + CurrentLanguage);
+          availableLanguages = JSON.parse(LanguageList);
+          currentLanguage = CurrentLanguage;
+         var mainDIVV = document.getElementById("image-dropdown");
+         if (canSwitch == 'true') {
+           addFlags();
+           mainDIVV.style.visibility='visible';
+         } else {
+           mainDIVV.style.visibility='hidden';
+         }
+      });
+   });
+  };
+
+
+  function addFlags() {
+      // Remove current language from the list
+      if (availableLanguages.length > 1) {
+          var index = availableLanguages.indexOf(currentLanguage);
+          availableLanguages.splice(index, 1);
+      }
+      for (i = 0; i < availableLanguages.length; i++) {
+          // per item create this:
+          //  <div class="img_holder" onclick="showAll(this, 'enu');">
+          //    <img class="flagimgs" src="flag_enu.png" />
+          //   </div>
+          var iImage = document.createElement("img");
+          iImage.className = "flagimgs";
+          iImage.src = 'flag_' + availableLanguages[i] + ".png";
+          iImage.name = availableLanguages[i];
+          //console.log("loaded " + iImage.className);
+          var iDiv = document.createElement('div');
+          iDiv.id = 'flag_' + availableLanguages[i];
+          iDiv.className = 'img_holder';
+          iDiv.onclick = showAll;
+          iDiv.appendChild(iImage);
+          document.getElementById('image-dropdown').appendChild(iDiv);
+      }
+  }
+
+  function showAll() {
+      language = event.target.name;//document.getElementById("image-dropdown").getAttribute['name'];
+      //console.log("showall: " + language);
+      // if there are more languages then show dropdown to select
+      // else just switch
+      if (availableLanguages.length > 1) {
+          var dropd = document.getElementById("image-dropdown");
+          if (allVisible == false) {
+            dropd.style.height = "auto";
+            dropd.style.overflow = "y-scroll";
+            allVisible = true;
+          } else {
+            setSelected(language);
+          }
+      } else {
+            setSelected(language);
+      }
+  }
+
+  function hideOther() {
+      var dropd = document.getElementById("image-dropdown");
+      dropd.style.height = "100px";
+      dropd.style.overflow = "hidden";
+      allVisible = false;
+  }
+
+  function setSelected(language) {
+      console.log("setSelected " + language);
+      hideOther();
+      switchLanguage(language);
+      var mainDIVV = document.getElementById("image-dropdown");
+      while (mainDIVV.hasChildNodes()) {
+          mainDIVV.removeChild(mainDIVV.lastChild);
+      }
+      setLanguageFlags();
+  }
+
+  </script>
+  <body>
+	</div>
+    <div class="centered_main_wrapper">
+        <img id="client_banner" src=''>
+        <button id="client_welcome_text" class="button waves-effect waves-light btn" onclick='greetVisitor()'></button>
+        <!--div id="client_welcome_text"></div-->
+    </div>
+    <!--div class="fa fa-hand-o-up help-hand"></div-->
+    <img class="help-hand" src="hand2_with_tap.png" style="display:none">
+  </body>
+</html>

@@ -1,0 +1,317 @@
+{
+  "client_name" : "Rijkswaterstaat",
+  "client_say_name" : "Rijkswaterstaat",
+  "client_logo" : "logo-RWS.png",
+  "language" : "dun",
+  "take_initiative": true,
+  "move_head":  true,
+  "voice_volume": "55",
+  "voice_pitch": "1.2",
+  "voice_speed": "90",
+  "voice_conf_limit": "0.465",
+  "scanhead_yaw_min": 0,
+  "scanhead_yaw_max": 0,
+  "scanhead_pitch_min": -30,
+  "scanhead_pitch_max": -20,
+  "scanhead_waittime_min": 1,
+  "scanhead_waittime_max": 3,
+  "start_state" : "MainMenu",
+  "StateMachine" : [
+    {
+      "state_name": "MainMenu",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["Welkom bij LEF! Heb je zin om de kracht quiz te spelen?"],
+        "pepper_not_understood": ["Sorry ik verstond je niet, druk alsjeblieft op de start knop om de quiz te starten."],
+        "pepper_display": {
+          "menu_title": "Zeg 'start' of druk op 'start' <br> om de KR8 quiz te starten",
+          "menu_options":[
+            {
+              "option_text": "Start",
+              "option_hear": ["Start","Begin","Laten we begginnen",
+                              "Go","Ja"],
+              "on_tap": "start"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "state_name": "start",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Oke, laten we beginnen!"],
+        "pepper_fontawesome": "fa-play",
+        "pepper_display": "",
+        "pepper_wait": 0.5,
+        "on_end": "Question_1"
+      }
+    },
+    {
+      "state_name": "Question_1",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["De eerste vraag is meteen een moeilijke, hier komt die: waar heeft kracht de fookes op?"],
+        "pepper_not_understood": "",
+        "pepper_display": {
+          "menu_title": "KR8 heeft de focus op:",
+          "menu_options":[
+            {
+              "option_text": "1. De klant",
+              "option_large": "yes",
+              "option_hear": ["Klant", "De klant", "1", "1 de klant"],
+              "on_tap": "Correct_question_1"
+            },
+            {
+              "option_text": "2. Verspilling",
+              "option_large": "yes",
+              "option_hear": ["Verspilling", "2", "twee", "2 verspilling"],
+              "on_tap": "Wrong_question_1"
+            },
+            {
+              "option_text": "3. Het budget",
+              "option_large": "yes",
+              "option_hear": ["Budget", "3", "drie", "3 het budget"],
+              "on_tap":  "Wrong_question_1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "state_name": "Wrong_question_1",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Helaas, dat is het verkeerde antwoord. Denk vanuit de behoefte van de klant. Oorganiseer het werk zodat de klant krijgt wat zij nodig heeft"],
+        "pepper_fontawesome": "fa-times",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_2"
+      }
+    },
+    {
+      "state_name": "Correct_question_1",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Correct! Dat is het goede antwoord. Bij Kracht denk je heelemaal vanuit de behoefte van de klant. Je organiseert met je team het werk zo optimaal mogelijk, zodat de klant krijgt wat hij nodig heeft en wanneer hij het nodig heeft."],
+        "pepper_fontawesome": "fa-check",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_2"
+      }
+    },
+    {
+      "state_name": "Question_2",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["Oke, de volgende vraag.. Waar mee helpt kracht?"],
+        "pepper_not_understood": "",
+        "pepper_display": {
+          "menu_title": "KR8 helpt je om:",
+          "menu_options":[
+            {
+              "option_text": "1. Spieren te kweken",
+              "option_large": "yes",
+              "option_hear": ["Spieren te kweken", "1", "spieren"],
+              "on_tap": "Wrong_question_2"
+            },
+            {
+              "option_text": "2. Efficiënter te werken",
+              "option_large": "yes",
+              "option_hear": ["efficienter te werken", "2", "twee", "efficienter"],
+              "on_tap": "Correct_question_2"
+            },
+            {
+              "option_text": "3. Meer saamhorigheid te creëren",
+              "option_large": "yes",
+              "option_hear": ["meer saamhorigheid te creeeren", "3", "drie", "saamhorigheid"],
+              "on_tap":  "Wrong_question_2"
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "state_name": "Wrong_question_2",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Helaas, dat is het verkeerde antwoord. Kracht helpt RWS te ontwikkelen naar een organisatie die continu verbetert."],
+        "pepper_fontawesome": "fa-times",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_3"
+      }
+    },
+    {
+      "state_name": "Correct_question_2",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Correct! Dat is het goede antwoord. Kracht helpt RWS te ontwikkelen naar een organisatie die continu verbetert."],
+        "pepper_fontawesome": "fa-check",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_3"
+      }
+    },
+
+    {
+      "state_name": "Question_3",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["En dan de volgende vraag: Wat houdt dienend leiderschap in?"],
+        "pepper_not_understood": "",
+        "pepper_display": {
+          "menu_title": "Dienend leiderschap houdt in:",
+          "menu_options":[
+            {
+              "option_text": "1. Haal altijd koffie voor je team",
+              "option_large": "yes",
+              "option_hear": ["Haal altijd koffie voor je team", "1", "koffie"],
+              "on_tap": "Wrong_question_3"
+            },
+            {
+              "option_text": "2. Doe alle suffe klusjes voor je team",
+              "option_large": "yes",
+              "option_hear": ["Doe alle suffe klusjes voor je team", "2", "twee", "klusjes", "suf"],
+              "on_tap": "Wrong_question_3"
+            },
+            {
+              "option_text": "3. Voorkom problemen voor je team",
+              "option_large": "yes",
+              "option_hear": ["Voorkom problemen voor je team.", "3", "drie", "derde", "problemen","toekomen"],
+              "on_tap":  "Correct_question_3"
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "state_name": "Wrong_question_3",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Helaas is dat het verkeerde antwoord. Al kan ik me het voorstellen dat je het dacht. Antwoord 3 is natuurlijk juist. Voorkom problemen voor je team."],
+        "pepper_fontawesome": "fa-times",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_4"
+      }
+    },
+    {
+      "state_name": "Correct_question_3",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["\\rspd=86\\ Koffie natuurlijk! Hi hi, even serieus nu. Jouw antwoord was natuurlijk juist."],
+        "pepper_fontawesome": "fa-check",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_4"
+      }
+    },
+
+    {
+      "state_name": "Question_4",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["We zijn bijna al weer bij het einde gekomen van de quiz, tijd vliegt, als je het naar je zin hebt.  Oke. hier is de vraag: mogen fouten worden gemaakt binnen kracht?"],
+        "pepper_not_understood": "",
+        "pepper_display": {
+          "menu_title": "Mogen fouten worden gemaakt bij KR8:",
+          "menu_options":[
+            {
+              "option_text": "1. Ja",
+              "option_large": "yes",
+              "option_hear": ["Waar","Yes", "Ja", "1"],
+              "on_tap": "Correct_question_4"
+            },
+            {
+              "option_text": "2. Nee",
+              "option_large": "yes",
+              "option_hear": ["Niet waar", "No","2", "twee", "nee"],
+              "on_tap": "Wrong_question_4"
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "state_name": "Wrong_question_4",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Helaas.. fouten maken moet juist! Van fouten kan je veel leren. Dat geldt vast ook voor jou!"],
+        "pepper_fontawesome": "fa-times",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_5"
+      }
+    },
+    {
+      "state_name": "Correct_question_4",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Dat klopt. Van fouten kan je veel leren. Dat geldt vast ook voor jou!"],
+        "pepper_fontawesome": "fa-check",
+        "pepper_display": "",
+        "pepper_wait": 1,
+        "on_end": "Question_5"
+      }
+    },
+
+    {
+      "state_name": "Question_5",
+      "state_type": "Menu",
+      "state_data": {
+        "pepper_say": ["Hier komt de laatste vraag: Met wie kun je contact opnemen voor meer informatie over kracht?"],
+        "pepper_not_understood": "",
+        "pepper_display": {
+          "menu_title": "Met wie kun je contact opnemen voor meer informatie over KR8:",
+          "menu_options":[
+            {
+              "option_text": "1. Je manager",
+              "option_large": "yes",
+              "option_hear": ["Je manager", "manager", "1"],
+              "on_tap": "Correct_question_5"
+            },
+            {
+              "option_text": "2. Een KR8 coordinator",
+              "option_large": "yes",
+              "option_hear": ["De landelijke of regionale krachtcoordinator", "2", "twee", "landelijke", "regionale","krachtcoordinator"],
+              "on_tap": "Correct_question_5"
+            },
+            {
+              "option_text": "3. Team leren en ontwikkelen",
+              "option_large": "yes",
+              "option_hear": ["Team leren en ontwikkelen", "3", "drie","derde", "team","ontwikkelen"],
+              "on_tap": "Correct_question_5"
+            }
+          ]
+        }
+      }
+    },
+
+    {
+      "state_name": "Correct_question_5",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["Ja! In eejn keer goed! Want alle antwoorden zijn goed. Je kunt ook meelen naar kcc et rws punt nl ."],
+        "pepper_fontawesome": "fa-check",
+        "pepper_display": "Je kunt ook mailen naar kcc@rws.nl",
+        "pepper_wait": 2,
+        "on_end": "Final_Slide"
+      }
+    },
+    {
+      "state_name": "Final_Slide",
+      "state_type": "Display_Data",
+      "state_data": {
+        "pepper_say": ["\\rspd=87 \\ Dat waren alle vragen. Ik hoop dat je wat geleerd hebt tijdens deze quiz ^start(animations/Stand/Gestures/Hey_1) en hoop je gauw weer terug te zien! ^wait(animations/Stand/Gestures/Hey_1)"],
+        "pepper_fontawesome": "fa-thumbs-up ",
+        "pepper_display": "",
+        "pepper_wait": 2,
+        "on_end": "MainMenu"
+      }
+    }
+  ]
+}

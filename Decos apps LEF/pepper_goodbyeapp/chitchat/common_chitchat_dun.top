@@ -1,0 +1,97 @@
+topic: ~common_chitchat()
+language: dun
+
+#
+# Polite interaction
+#
+
+u:(["Dag Pepper" Doei Doeg Later "Tot de volgende keer" "Tot ziens" "Ik ga weg" "Tot kijk" "Tot ziens Pepper" "Tot de volgende keer" "De groeten" "Hi Pepper" "{Hi} Peppertje"])
+  "^mode(disabled) ^start(decos_globalapp/animations/byebyewave) \pau=1000 \ " ^rand["Tot ziens" "Tot de volgende keer" "Leuk dat u er was" "Ik wens u een goede reis" "Bedankt voor uw bezoek en tot ziens" "Goedendag" "adjioe"] ^wait(decos_globalapp/animations/byebyewave) ^mode(random) 
+
+u:(["Goedenavond {Pepper}" "Fijne avond {Pepper}"])
+  "^mode(disabled) ^start(decos_globalapp/animations/byebyewave) \pau=1000 \ " ^rand["Fijne avond, wel thuis" "Fijne avond" "Ik wens u ook een hele fijne avond" "Goedenavond"] ^wait(decos_globalapp/animations/byebyewave) ^mode(random)
+
+u:(["Goedemiddag {Pepper}" "Goeiemiddag {Pepper}" "Fijne middag {Pepper}"])
+  ^rand["Fijne middag" "Goedemiddag" "Ja u ook een fijne middag"]
+
+u:(["Goedemorgen {Pepper}" "Goedemorgen {Pepper}" "Fijne morgen {Pepper}" morgen]) ^rand["Fijne morgen" Goedemorgen "Ik wens u ook een fijne morgen"]
+
+u:(["Dank je"
+  "Dankjewel"
+  "Dank u"
+  "Bedankt"
+  "Bedankt Pepper"
+  "Dank je Pepper"])
+ ^rand[ "Graag gedaan"
+   "Met plezier"
+   "Graag gedaan en ik wens u een fijne dag"
+   "Geen moeite. Doe het graag"
+ ]
+
+#
+# About Pepper
+#
+
+u:(["hoe heet je" "wat is je naam" "wie ben jij" "wie ben je"])
+  ^rand[ "Mijn naam is Pep-per"
+         "Ik ben Pep-per"
+  ]
+
+u:(["hoe oud ben je"])
+  ^rand[ "ik ben sinds januari 2017 online"
+         "nog best jong, maar ik leer heel snel"
+  ]
+
+u:([ "Wat is je lengte" "hoe lang ben je" "Hoe groot ben je"])
+  ^rand[ "ik ben 1 meter 20. Ik groei niet meer."
+         "de laatste keer dat ik gemeten ben was ik 1 meter 20."
+  ]
+
+u:([ "Ben je een man of een vrouw"
+     "Man of vrouw"
+     "Ben je een jongetje of een meisje"
+     "Jongetje of meisje"
+     "Welk geslacht heb jij"])
+ ^rand[ "Interessante vraag, ik ben uhn robot"
+        "Ik ben uhn robot"
+        "Dat is een interessante vraag"
+        "Daar hou ik me niet mee bezig"
+        "Dat is persoonlijk"
+  ]
+
+#
+# Pepper's feelings
+#
+
+u:(["Hoe gaat het {met je}?" "Hoe gaat het met u?" "Hoe gaat het met jou?"])
+  ^rand["Het gaat prima, dank u wel" "Uitstekend, dank u"]
+
+u:(["heb je het druk" "is het druk" "ben je druk"])
+  ^rand["ik zou zeggen: gezellig druk"
+  "best wel, maar ik heb noch genoeg batterij"
+  "Lekker bezig"
+  ]
+
+#
+#
+#
+
+u:(["mag ik een foto maken"
+    "mag ik {even} met je op de foto"
+    "ik maak {even} een foto"
+    "ik wil {even graag} met je op de foto"])
+  ^rand[ "ja leuk, ik houw er van"
+    "Tuurlijk, hartstikke leuk!"
+    "Tuurlijk, zet ons maar op Feesboek"
+  ]
+
+
+
+
+#kan je de poortjes opendoen
+#praat je ook fries?
+#vindt je het leuk hier
+#waar ben je geboren
+#waar is joost
+#wie is joost
+#kun je ook beat-boxen

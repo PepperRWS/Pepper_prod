@@ -1,0 +1,8 @@
+{
+  "language" : "English",
+  "time" : {
+    "morning": "morning",
+    "afternoon" : "afternoon",
+    "evening" : "evening"
+  }
+}

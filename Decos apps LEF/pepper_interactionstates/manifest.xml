@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="decosinteractionstates" version="0.0.1">
+ <names>
+  <name lang="en_US">Decos Interaction States</name>
+ </names>
+ <supportedLanguages>
+  <language>en_US</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <services>
+  <service name="DecosInteractionStates" execStart="decos_interactionstates.py" autorun="true"/>
+ </services>
+ <executableFiles>
+  <file path="decos_analytics.py"/>
+ </executableFiles>
+</package>

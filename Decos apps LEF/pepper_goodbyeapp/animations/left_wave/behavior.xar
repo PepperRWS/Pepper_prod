@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?> <ChoregrapheProject
+xmlns="http://www.aldebaran-robotics.com/schema/choregraphe/project.xsd"
+xar_version="3"> <Box name="root" id="-1" localization="8" tooltip="Root box of
+Choregraphe&apos;s behavior. Highest level possible." x="0"
+y="0"><bitmap>media/images/box/root.png</bitmap><script
+language="4"><content><![CDATA[]]></content></script><Input name="onLoad"
+type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is
+loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2"
+inner="0" tooltip="Box behavior starts when a signal is received on this input."
+id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0"
+tooltip="Box behavior stops when a signal is received on this input." id="3"
+/><Output name="onStopped" type="1" type_size="1" nature="1" inner="0"
+tooltip="Signal sent when box behavior is finished." id="4" /><Timeline
+enable="0"><BehaviorLayer name="behavior_layer1"><BehaviorKeyframe
+name="keyframe1" index="1"><Diagram><Box name="Wave_Left" id="1"
+localization="8" tooltip="Waving the left arm" x="214"
+y="113"><bitmap>media/images/box/movement/move.png</bitmap><script
+language="4"><content><![CDATA[]]></content></script><Input name="onLoad"
+type="1" type_size="1" nature="0" inner="1" tooltip="Signal sent when diagram is
+loaded." id="1" /><Input name="onStart" type="1" type_size="1" nature="2"
+inner="0" tooltip="Box behavior starts when a signal is received on this input."
+id="2" /><Input name="onStop" type="1" type_size="1" nature="3" inner="0"
+tooltip="Box behavior stops when a signal is received on this input." id="3"
+/><Output name="onStopped" type="1" type_size="1" nature="1" inner="0"
+tooltip="Signal sent when box behavior is finished." id="4" /><Timeline
+enable="1" fps="25" start_frame="1" end_frame="-1" size="147"><BehaviorLayer
+name="behavior_layer1"><BehaviorKeyframe name="keyframe1" index="1"><Diagram
+/></BehaviorKeyframe></BehaviorLayer><ActuatorList
+model="juliette"><ActuatorCurve name="value" actuator="HeadPitch" mute="1"
+unit="0"><Key frame="94" value="-15.2051" /></ActuatorCurve><ActuatorCurve
+name="value" actuator="HeadYaw" mute="1" unit="0"><Key frame="94" value="0"
+/></ActuatorCurve><ActuatorCurve name="value" actuator="HipPitch" mute="1"
+unit="0"><Key frame="94" value="-6.32813" /></ActuatorCurve><ActuatorCurve
+name="value" actuator="HipRoll" mute="1" unit="0"><Key frame="94"
+value="-0.263673" /></ActuatorCurve><ActuatorCurve name="value"
+actuator="KneePitch" mute="1" unit="0"><Key frame="94" value="1.58204"
+/></ActuatorCurve><ActuatorCurve name="value" actuator="LElbowRoll" mute="0"
+unit="0"><Key frame="1" value="-5.09766" /><Key frame="15" value="-23.291"
+/><Key frame="30" value="-33.3984" /><Key frame="45" value="-46.8457" /><Key
+frame="59" value="-17.1387" /><Key frame="71" value="-64.4238" /><Key frame="80"
+value="-17.1387" /><Key frame="95" value="-37.5863" /><Key frame="118"
+value="-42.9785" /><Key frame="131" value="-49.6582" /><Key frame="147"
+value="-10.1074" /></ActuatorCurve><ActuatorCurve name="value"
+actuator="LElbowYaw" mute="0" unit="0"><Key frame="1" value="-64.6875" /><Key
+frame="15" value="-16.084" /><Key frame="30" value="-16.6992" /><Key frame="45"
+value="-16.5234" /><Key frame="59" value="-17.1387" /><Key frame="71"
+value="-17.1387" /><Key frame="80" value="-17.1387" /><Key frame="94"
+value="-50.0997" /><Key frame="118" value="-78.5742" /><Key frame="131"
+value="-82.002" /><Key frame="147" value="-77.7832"
+/></ActuatorCurve><ActuatorCurve name="value" actuator="LHand" mute="0"
+unit="1"><Key frame="1" value="0.250439" /><Key frame="15" value="0.43761"
+/><Key frame="30" value="0.8" /><Key frame="45" value="0.8" /><Key frame="59"
+value="0.8" /><Key frame="71" value="0.8" /><Key frame="80" value="0.8" /><Key
+frame="94" value="0.8" /><Key frame="118" value="0" /><Key frame="131" value="0"
+/><Key frame="147" value="0.460457" /></ActuatorCurve><ActuatorCurve
+name="value" actuator="LShoulderPitch" mute="0" unit="0"><Key frame="1"
+value="95.5371" /><Key frame="15" value="35.332" /><Key frame="30"
+value="13.3706" /><Key frame="45" value="-50.7955" /><Key frame="59"
+value="-72.334" /><Key frame="71" value="-54.8723" /><Key frame="80"
+value="-72.334" /><Key frame="94" value="-29.4535" /><Key frame="118"
+value="31.2891" /><Key frame="131" value="58.6231" /><Key frame="147"
+value="92.373" /></ActuatorCurve><ActuatorCurve name="value"
+actuator="LShoulderRoll" mute="0" unit="0"><Key frame="1" value="5.625" /><Key
+frame="15" value="9.39002" /><Key frame="30" value="18.6847" /><Key frame="45"
+value="15.5424" /><Key frame="59" value="31.7" /><Key frame="71" value="31.4"
+/><Key frame="80" value="31.7" /><Key frame="94" value="10.3395" /><Key
+frame="118" value="0.703127" /><Key frame="131" value="3.25195" /><Key
+frame="147" value="2.28516" /></ActuatorCurve><ActuatorCurve name="value"
+actuator="LWristYaw" mute="0" unit="0"><Key frame="1" value="2.89802" /><Key
+frame="15" value="-22.5027" /><Key frame="30" value="-8.79157" /><Key frame="45"
+value="-4.83644" /><Key frame="59" value="-4.83644" /><Key frame="71"
+value="-9.14314" /><Key frame="80" value="-4.83644" /><Key frame="94"
+value="-21.7996" /><Key frame="118" value="32.1226" /><Key frame="131"
+value="10" /><Key frame="147" value="-16.7897" /></ActuatorCurve><ActuatorCurve
+name="value" actuator="RElbowRoll" mute="1" unit="0"><Key frame="1"
+value="10.2832" /><Key frame="15" value="11.3379" /><Key frame="30"
+value="16.3477" /><Key frame="45" value="11.6895" /><Key frame="59"
+value="20.0391" /><Key frame="71" value="13.8867" /><Key frame="80"
+value="20.0391" /><Key frame="94" value="11.6016" /><Key frame="95"
+value="16.084" /><Key frame="118" value="11.8652" /><Key frame="147"
+value="11.5137" /></ActuatorCurve><ActuatorCurve name="value"
+actuator="RElbowYaw" mute="1" unit="0"><Key frame="1" value="70.3125" /><Key
+frame="15" value="84.0234" /><Key frame="30" value="87.4512" /><Key frame="45"
+value="85.4297" /><Key frame="59" value="90.6152" /><Key frame="71"
+value="73.916" /><Key frame="80" value="90.6152" /><Key frame="94"
+value="85.6934" /><Key frame="95" value="87.8906" /><Key frame="118"
+value="84.375" /><Key frame="147" value="79.541"
+/></ActuatorCurve><ActuatorCurve name="value" actuator="RHand" mute="1"
+unit="1"><Key frame="1" value="0.35413" /><Key frame="15" value="-0.8" /><Key
+frame="30" value="-1" /><Key frame="45" value="-1" /><Key frame="59" value="-1"
+/><Key frame="71" value="0" /><Key frame="80" value="-1" /><Key frame="94"
+value="0.630931" /><Key frame="107" value="0.5" /><Key frame="118" value="0.3"
+/></ActuatorCurve><ActuatorCurve name="value" actuator="RShoulderPitch" mute="1"
+unit="0"><Key frame="1" value="94.834" /><Key frame="15" value="91.9336" /><Key
+frame="30" value="92.5488" /><Key frame="45" value="91.9336" /><Key frame="59"
+value="93.7793" /><Key frame="71" value="97.998" /><Key frame="80"
+value="93.7793" /><Key frame="94" value="92.5488" /><Key frame="95"
+value="93.6914" /><Key frame="118" value="91.9336" /><Key frame="147"
+value="92.373" /></ActuatorCurve><ActuatorCurve name="value"
+actuator="RShoulderRoll" mute="1" unit="0"><Key frame="1" value="-6.24024"
+/><Key frame="15" value="-1.58204" /><Key frame="30" value="-1.66993" /><Key
+frame="45" value="-1.66993" /><Key frame="59" value="-1.66993" /><Key frame="71"
+value="-4.74609" /><Key frame="80" value="-1.66993" /><Key frame="94"
+value="-3.16406" /><Key frame="95" value="-1.66993" /><Key frame="118"
+value="-1.49414" /><Key frame="147" value="-3.33984"
+/></ActuatorCurve><ActuatorCurve name="value" actuator="RWristYaw" mute="1"
+unit="0"><Key frame="1" value="13.7966" /><Key frame="15" value="19.8611" /><Key
+frame="30" value="21.3553" /><Key frame="45" value="20.5643" /><Key frame="59"
+value="20.5643" /><Key frame="71" value="36.8242" /><Key frame="80"
+value="20.5643" /><Key frame="94" value="21.7948" /><Key frame="95"
+value="20.1248" /><Key frame="118" value="19.6853" /><Key frame="147"
+value="19.0701" /></ActuatorCurve></ActuatorList></Timeline><Resource name="Left
+arm" type="Lock" timeout="1" /></Box><Link inputowner="1" indexofinput="2" outputowner="0" indexofoutput="2" /><Link inputowner="0" indexofinput="4" outputowner="1" indexofoutput="4" /></Diagram></BehaviorKeyframe></BehaviorLayer></Timeline></Box></ChoregrapheProject>

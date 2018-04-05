@@ -1,0 +1,160 @@
+topic: ~joella_dialog_file()
+language: dun
+
+# Defining extra concepts out of words or group of words
+#concept:(hello) [hello hi hey "good morning" greetings]
+
+# Catching inputs and triggering outputs
+#u:(e:onStart) $onStopped=1
+
+# Replying to speech
+#u:(~hello) ~hello
+
+#proposal: %love I love you
+#u:(do you love me) yes, ^gotoReactivate(love)
+u:(e:Dialog/NotUnderstood) $DecosRWS/NotUnderstood=1 ^sameProposal
+
+u:(e:DecosRWS/Tablet/stop)
+Ojeee, was mijn verhaal te lang?
+
+u:(e:DecosRWS/WaitInteraction) ^gotoReactivate(WaitInteraction)
+
+proposal: %WaitInteraction
+u1:([Hallo "Hallo Pepper" Hoi hi e:DecosRWS/PersonFound]) [Hallo "Hoe kan ik je helpen?" "Hallo, hoe kan ik je helpen?"] $DecosRWS/InteractionSarted=1   ^gotoReactivate(AskQuestion)
+
+
+proposal: %AskQuestion
+
+u1: ([Bedankt "Dank je wel" "Dank je"]) "Graag gedaan"
+
+u1: (["Ga weg" Vervelend "Je stoort" "kop dicht" stil]) "Sorry voor het storen"
+^sameProposal
+
+u1: (["Hoe gaat het? "]) HEEL goed, ik vind het erg leuk bij Rijkswaterstaat
+^sameProposal
+
+u1: ([ Bedankt "Dank je" Dankjewel])
+Graag gedaan.
+^sameProposal
+
+u1: (["Ga jij mijn baan overnemen?"]) Hi hi, Ik ben gevleid dat je denkt dat ik dat zou kunnen.
+^sameProposal
+
+u1: (["Kun je koffie halen?" "Ga je koffie voor me halen?"]) "Sorry, daar ben ik nog te klunzig voor"
+^sameProposal
+
+
+u1: (["Wat is LEF?" "Kun je iets vertellen over LEF?"])
+$DecosRWS/InteractionSarted=1
+\pau=500\
+$DecosRWS/Tablet/showimage/start = 1
+\pau=700\
+$DecosRWS/Tablet/showimage = "logolef.png"
+LEF staat voor lef hebben. Doorr LEF worden creatieve denkprocessen gestimuleerd door, het organiseren van doorbraak sessies. Onderr proofessionele begeleiding  wordt je uitgedaagd om naa te denken, over de uitdagingen waar Rijkswaterstaat, in de toekomst voor staat
+
+$DecosRWS/Tablet/showimage/stop = 1
+^sameProposal
+
+u1: (["Waarom sta jij in LEF?" "Waarom staat er een robot in LEF?" "sta in LEF"])
+$DecosRWS/InteractionSarted=1
+\pau=500\
+$DecosRWS/Tablet/showimage/start = 1
+\pau=700\
+$DecosRWS/Tablet/showimage = "RWS-pepper-email.png"
+"Ik help LEF, doorbraken te realiseren voor RWS. Ik ben aan het leren hoe ik dat het beste kan doen. Heb jij een suggestie voor me?"
+$DecosRWS/Tablet/showimage/stop = 1
+^sameProposal
+
+u1: (["Wie ben jij?" "Vertel wat over jezelf"]) "Ik ben Peppper en ik ben de eerste robot die in het LEF werkt!"
+^sameProposal
+
+#Boy or girl
+u1: (["Ben je een jongen of een meisje?" jongen meisje]) "Ik ben een, robot"
+^sameProposal
+#Oeps, is mijn verhaal te lang?
+#Color
+u1: ("Wat is je lievelingskleur")
+$DecosRWS/InteractionSarted=1
+\pau=500\
+$DecosRWS/Tablet/showimage/start = 1
+\pau=700\
+$DecosRWS/Tablet/showimage = "waterwet.jpg"
+"Mijn lievelingskleur is blauw. De kleur van water. Ik kan niet zo goed zwemmen, maar ik hou toch wel van water!"
+\pau=500\
+$DecosRWS/Tablet/showimage/stop = 1
+^sameProposal
+
+#Waar is de wc?
+u1: ([WC toilet "Waar is de wc" "Waar is het toilet"]) "Aan het einde van de gang aan de rechterkant."
+^sameProposal
+
+u1:(["Wat kun jij?" "Wat doe jij?"])
+Ik kan steeds meer, maar ben nog volop aan het leren! Ik kan je dingen vertellen over LEF, en over andere projecten.
+^sameProposal
+
+u1:([Doei dag "tot ziens" e:Dialog/NoOneSpeak10]) ^rand["Fijneuh dag"] $DecosRWS/InteractionStopped=1
+
+u1:(["Meer weten over Koers 2020" "Meer weten over Koers 20 20" "Koers 20 20"])
+$DecosRWS/InteractionSarted=1
+\pau=500\
+$DecosRWS/Tablet/showimage/start = 1
+\pau=700\
+
+#proposal: %Koers2020
+#Sheet1
+$DecosRWS/Tablet/showimage = "koers2020/Slide1.PNG"
+Koers twintig twintig beschrijft de richting van R.W.S. De belangrijkste thema’s zijn leefbaar, veilig en bereikbaar Nederland.
+
+\pau=1000\
+
+#Sheet2
+$DecosRWS/Tablet/showimage = "koers2020/Slide2.PNG"
+Wij werken samen met elkaar en onze partners. We leggen focus op een duurzame leefomgeving en zetten in op smart mobility.
+
+\pau=1000\
+
+#Sheet5
+$DecosRWS/Tablet/showimage = "koers2020/Slide5.PNG"
+Koers twintig twintig gaat vooral om een andere manier van werken.. denken.. en doen.. van alle medewerkers.
+We vertrouwen op onze kennis, vakmanschap.. en professionaaliteit.
+
+\pau=1000\
+
+#Sheet6
+$DecosRWS/Tablet/showimage = "koers2020/Slide6.PNG"
+We denken daarbij in kansen en zijn wendbaar. Klaar voor de toekomst.
+
+\pau=1000\
+
+#Sheet7
+$DecosRWS/Tablet/showimage = "koers2020/Slide7.PNG"
+Onze organisatie en ons werk draait op mensen en robots zoals jij en ik.
+
+\pau=1000\
+
+#Sheet8
+$DecosRWS/Tablet/showimage = "koers2020/Slide8.PNG"
+Weh brengen de ambities van koers twintig twintig in de praktijk door Mijn R.W.S.
+
+\pau=1000\
+
+#Sheet9
+$DecosRWS/Tablet/showimage = "koers2020/Slide9.PNG"
+Ik weet wat ik Kan, waar Mijn waarde ligt en waar ik trots op ben. En deel dit met anderen...DAT is, MEIN,  R.W.S.
+$DecosRWS/Tablet/showimage/stop = 1
+^sameProposal
+
+
+u1:(["Wat is smart mobility?" "smart mobility"])
+$DecosRWS/InteractionSarted=1
+\pau=500\
+$DecosRWS/Tablet/showimage/start = 1
+\pau=1000\
+$DecosRWS/Tablet/showvideo = "SmartMobility/Pepper_SM-vraag1.mp4"
+\pau=500\
+Dat wil ik je graag laten zien.
+\pau=500\
+
+Smart mobility is het gebruiken van innovatieve technologie om veiliger, sneller en comfortabeler te kunnen reizen. Denk aan systemen in de auto die bestuurders ondersteunen. Aan apps die je de snelste actuele route wijzen naar je bestemming. Of aan verkeerslichten die het verkeer herkennen, zodat we beter kunnen doorrijden. Smart Mobility kun je dus zien als de digitalisering van onze mobiliteit. En dat heeft veel gevolgen... voor het Nederlandse wagenpark, voor ons reisgedrag en voor onze infrastructuur. En dus ook voor ons, alle medewerkers van Rijkswaterstaat.
+$DecosRWS/Tablet/showimage/stop = 1
+^sameProposal
