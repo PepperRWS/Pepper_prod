@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package uuid="i-visie-ea12bd" version="0.0.0">
+ <names>
+  <name lang="en_US">Vision</name>
+  <name lang="nl_NL">Visie</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">I-Vision dialog</description>
+  <description lang="nl_NL">I-Visie dialoog</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">vision</name>
+    <name lang="nl_NL">i-visie</name>
+   </names>
+   <triggerSentences>
+    <sentence lang="en_US">vision</sentence>
+    <sentence lang="nl_NL">visie</sentence>
+   </triggerSentences>
+   <loadingResponses>
+    <sentence lang="en_US">Okay</sentence>
+    <sentence lang="nl_NL">Oké</sentence>
+   </loadingResponses>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+ <requirements>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
+</package>
