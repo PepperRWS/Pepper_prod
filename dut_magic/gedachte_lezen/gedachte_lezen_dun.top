@@ -1,0 +1,48 @@
+topic: ~gedachte_lezen()
+language: dun
+
+#concept:(neutral) \style=neutral\ \rspd=100\ \vct=110\
+#concept:(neutral_slow) \style=neutral\ \vct=105\ \rspd=100\
+#concept:(joyful) \style=joyful\ \rspd=90\ \vct=95\
+#concept:(didactic) \style=didactic\ \rspd=105\ \vct=110\
+concept:(ja) [ja "{ja} ["leuk {idee} {nog een keer}" prima oké "doe maar" gaaf "ga je gang" "probeer het maar eens"]"]
+concept:(nee) [nee "{nee} liever niet" "{nee} dat wil ik {liever} niet" "{nee} absoluut niet" "{nee} daar heb ik geen ["behoefte aan" "zin in"]"]
+concept:(een_tot_tien) ^rand[één twee drie vier vijf zes zeven acht negen]
+concept:(fout) [nee "{nee} dat is fout" "{helaas} niet goed" "{nee} dat klopt niet"]
+concept:(goed) [ja "{ja} wat goed {van jou}{zeg}" "{ja} super {goed}{gedaan}" "{ja} knap hoor" "{ja} echt goed {van jou}"]
+concept:(tot_ziens) ["tot ziens" dag doei "de mazzel" "tot kijk"]
+
+u:(e:onStart) ^gotoReactivate(lees_gedachte)
+
+proposal: %lees_gedachte Ik kan gedachtelezen, \pau=500\ zal ik eens proberen jouw gedachte te lezen
+u1:(~ja) Goed, \pau=500\ neem een getal onder de tien in je gedachte. \pau=2000\ ^gotoReactivate(onder_de_tien)
+u1:(~nee) Jammer $onStopped=1
+u1:(e:Dialog/NotSpeaking20) $onStopped=1
+
+proposal: %onder_de_tien Laat me even denken \pau=1000\ ^run(animations/Stand/Waiting/Think_4) Ik denk dat ik het weet. \pau=500\ Is het ~een_tot_tien
+u1:(~goed) ^run(animations/Stand/Emotions/Positive/Winner_1) Wat ben ik toch goed.\pau=500\ Ik zal het nog een stapje moeielijker maken, \pau=700\ let op. ^gotoReactivate(kaart_truc)
+u1:(~fout) ^start(animations/Stand/Emotions/Negative/Sad_2) Tja het lukt natuurlijk niet altijd. Wacht ik probeer wat anders. \pau=1000\ ^gotoReactivate(kaart_truc)
+u1:(e:Dialog/NotSpeaking20) $onStopped=1
+
+proposal: %kaart_truc Als echte goochelaar maak ik natuurlijk gebruik van spelkaarten. \pau=500\ Ik ga je vragen een kaart te onthouden. Dan zal ik je laten zien dat ik kan raden welke kaart jij in gedachte hebt. Kijk eens goed naar de kaarten op mijn scherm. $ShowImage=Dia1.png \pau=2000\ Neem één van deze kaarten in gedachte. \pau=1000\ Onthou de kaart goed. \pau=500\ Geef me even de tijd om te concentreren. $HideImage=1 ^run(animations/Stand/Waiting/Binoculars_1) Focus je goed op de kaart die jij in gedachte hebt. Ik denk dat ik weet welke kaart jij hebt gekozen. \pau=2000\ Denk goed aan de kaart die jij gekozen hebt, die heb ik weggehaald, kijk maar naar mijn scherm. $ShowImage=Dia2.png \pau=1000\ En klopt het?
+u1:(~goed) ^run(animations/Stand/Emotions/Positive/Winner_1) Wist je dat ik ook $HideImage=1 olifanten kan laten verdwijnen, maar dat zal ik je een volgende keer laten zien. \pau=3000\  ^gotoReactivate(vervolg)
+u1:(~fout) ^run(animations/Stand/Emotions/Negative/Angry_1) Deze lukt anders altijd. \pau=5000\ $HideImage=1 ^gotoReactivate(vervolg)
+u1:(e:Dialog/NotSpeaking20) $onStopped=1
+
+proposal: %vervolg Als je wilt dan kan ik het nog eens proberen?
+u1:(~ja) Ik kan weer een getal \pau=200\ raden, of wil je de truc met de kaarten?
+    u2:({*} getal {*}) Goed, \pau=500\ neem een getal onder de tien in je gedachte. \pau=2000\ ^gotoReactivate(getal_2)
+    u2:({*} kaarten {*}) ^gotoRandom(kaarten_2)
+    u2:(e:Dialog/NotSpeaking15) $onStopped=1
+u1:(Nee {*}) Jammer $onStopped=1
+u1:(e:Dialog/NotSpeaking15) $onStopped=1
+
+proposal: %getal_2 Laat me even denken \pau=1000\ ^run(animations/Stand/Waiting/Think_4) Ik denk dat ik het weet. \pau=500\ Is het ~een_tot_tien
+u1:(~goed) ^run(animations/Stand/Emotions/Positive/Winner_1) Wat ben ik toch goed.\pau=2000\ ^gotoReactivate(vervolg)
+u1:(~fout) ^start(animations/Stand/Emotions/Negative/Sad_2) Tja het lukt natuurlijk niet altijd.\pau=2000\ ^gotoReactivate(vervolg)
+u1:(e:Dialog/NotSpeaking20) $onStopped=1
+
+proposal: %kaarten_2 Kijk weer goed naar de kaarten op mijn scherm. $ShowImage=Dia1.png \pau=2000\ Neem één van deze kaarten in gedachte. \pau=3000\ Onthou de kaart goed. \pau=500\ Geef me even de tijd om te concentreren. $HideImage=1 ^run(animations/Stand/Waiting/Binoculars_1) Focus je goed op de kaart die jij in gedachte hebt. \pau=500\ Ik denk dat ik weet welke kaart jij hebt gekozen. \pau=2000\ Denk goed aan de kaart die jij gekozen hebt, die heb ik weggehaald, kijk maar naar mijn scherm. $ShowImage=Dia2.png \pau=1000\ En klopt het?
+u1:(~goed) ^run(animations/Stand/Emotions/Positive/Winner_1) Ik ben ook veel beter dan Hans Klok, $HideImage=1 \pau=5000\  ^gotoReactivate(vervolg)
+u1:(~fout) ^run(animations/Stand/Emotions/Negative/Angry_1) Deze lukt anders altijd. \pau=5000\ $HideImage=1 ^gotoReactivate(vervolg)
+u1:(e:Dialog/NotSpeaking20) $onStopped=1

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.0" uuid="dut_magic-604718">
+ <names>
+  <name lang="en_US">dut_magic</name>
+ </names>
+ <supportedLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path=".">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">magic</name>
+    <name lang="nl_NL">toveren</name>
+   </names>
+   <descriptions>
+    <description lang="en_US">Pepper can read your mind</description>
+    <description lang="nl_NL">Pepper kan gedachte lezen</description>
+   </descriptions>
+   <triggerSentences>
+    <sentence lang="en_US">Can you read my mind</sentence>
+    <sentence lang="en_US">Read my mind</sentence>
+    <sentence lang="en_US">Can you do magic</sentence>
+    <sentence lang="en_US">Do magic</sentence>
+    <sentence lang="nl_NL">Kun je mijn gedachte lezen</sentence>
+    <sentence lang="nl_NL">Lees eens mijn gedachte</sentence>
+   </triggerSentences>
+   <permissions/>
+  </behaviorContent>
+ </contents>
+</package>
