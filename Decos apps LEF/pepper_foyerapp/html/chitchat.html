@@ -1,0 +1,70 @@
+<html>
+  <script src="scripts/qimessaging.js"></script>
+  <script src="scripts/naoqi.js"></script>
+  <script src="includes/jquery.js"></script>
+  <link rel="stylesheet" href="includes/font-awesome/css/font-awesome.min.css">
+
+  <link type="text/css" rel="stylesheet" href="includes/materialize/css/materialize.min.css"  media="screen,projection"/>
+  <script type="text/javascript" src="includes/materialize/js/materialize.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <div class="centered_main_wrapper">
+      <div id="title" class="title"> </div>
+      <div class="question_wrapper" id="question_list"></div>
+    </div>
+  </body>
+
+  <script>
+  function shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    $('#title').html("Dit kun je me vragen:");
+
+    var questions = shuffle([
+      "Wat is LEF?",
+      "Wie ben jij?",
+      "Ben je een jongen of een meisje?",
+      "Wat is je lievelingskleur?",
+      "Waar is de wc?",
+      "Meer weten over Koers 2020",
+      "Wat is smart mobility?",
+      "Waarom sta jij in LEF?"
+    ])
+
+
+
+    for ( i = 0 ; i < 3 ; i++)
+      $( "#question_list").append("<button class='button question waves-effect waves-light btn' id='question_' >"+questions[i]+"</button>");
+
+    var naoqi = NaoQiSession('198.18.0.1');
+    //var naoqi = NaoQiSession('192.168.8.104');
+    var session= naoqi.session;
+
+    $.when( session.service("ALDialog") ).then(function(dialog){
+
+      $( ".question" ).one("touchstart",function(){
+        dialog.forceInput( $(this).text() )
+      })
+
+    })
+
+  </script>
+
+</html>
