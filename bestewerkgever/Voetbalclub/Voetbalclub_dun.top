@@ -1,0 +1,23 @@
+topic: ~Voetbalclub()
+language: dun
+
+
+
+concept:(hallo) [hallo hoi hi hey goedendag goeiedag goeiendag]
+concept:(tot_ziens) ["tot ziens" dag doei "de mazzel" "tot kijk"]
+
+u:(~hallo {Pepper}) ~hallo Ik heb zin in iets grappigs
+u:({~hallo} wat kun je {zoal} doen {Pepper}?) Ik kan saxofoon spelen of een olifant na doen. Ik weet ook wat de beste voetbalclub is van Nederland.
+u:({["Kun je" alsjeblieft]} saxafoon spelen) Leuk, ik speel saxofoon $sax=1
+u:(Speel saxofoon) Leuk, ik speel saxofoon $sax=1
+u:({["Kun je" alsjeblieft]} een olifant na doen {nu}) Daar komt hij dan $phant=1
+u:(Doe een olifant na) Daar komt hij dan $phant=1
+u:(Wat is de beste voetbalclub {van Nederland}) Dat is natuurlijk Feynoord $hih=1
+u:({pepper} wat is de beste voetbalclub {van Nederland}) Dat is natuurlijk Feynoord $hih=1
+u:({pepper} wat is jouw favoriete voetbalclub {pepper}) Dat is natuurlijk Feynoord $hih=1
+u:({pepper} wat is je favoriete voetbalclub {pepper}) Dat is natuurlijk Feynoord $hih=1
+u:(~tot_ziens) Ik wens u fijne feestdagen. En hopelijk tot ziens $klaar=1
+
+
+
+

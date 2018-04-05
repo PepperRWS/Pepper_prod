@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<package version="0.0.0" uuid="bestewerkgever-bc7242">
+ <names>
+  <name lang="en_US">best boss</name>
+  <name lang="nl_NL">beste werkgever</name>
+ </names>
+ <descriptions>
+  <description lang="en_US">Best boss App</description>
+  <description lang="nl_NL">Beste werkgever app</description>
+ </descriptions>
+ <supportedLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </supportedLanguages>
+ <descriptionLanguages>
+  <language>en_US</language>
+  <language>nl_NL</language>
+ </descriptionLanguages>
+ <contents>
+  <behaviorContent path="behavior_1">
+   <userRequestable/>
+   <nature>interactive</nature>
+   <names>
+    <name lang="en_US">best boss</name>
+    <name lang="nl_NL">bestewerkgever</name>
+   </names>
+   <triggerSentences>
+    <sentence lang="en_US">best boss</sentence>
+    <sentence lang="nl_NL">beste baas</sentence>
+   </triggerSentences>
+   <loadingResponses>
+    <sentence lang="nl_NL">Oké</sentence>
+   </loadingResponses>
+   <permissions/>
+  </behaviorContent>
+  <dialogContent typeVersion="1.0" topicName="Voetbalclub">
+   <topic path="Voetbalclub/Voetbalclub_dun.top" language="nl_NL"/>
+  </dialogContent>
+ </contents>
+ <requirements>
+  <robotRequirement model="JULIETTE"/>
+ </requirements>
+</package>
